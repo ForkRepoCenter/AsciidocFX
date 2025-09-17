@@ -2,8 +2,10 @@ package com.kodedu.config;
 
 import com.dooapp.fxform.FXForm;
 import com.dooapp.fxform.builder.FXFormBuilder;
+import com.dooapp.fxform.handler.NamedFieldHandler;
 import com.dooapp.fxform.view.factory.DefaultFactoryProvider;
 import com.kodedu.config.factory.FileChooserEditableFactory;
+import com.kodedu.config.factory.FolderChooserFactory;
 import com.kodedu.controller.ApplicationController;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.service.ThreadService;
@@ -12,10 +14,7 @@ import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonObjectBuilder;
 import jakarta.json.JsonReader;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -36,9 +35,10 @@ public class FileHistoryConfigBean extends ConfigurationBase {
 
     private BooleanProperty enableFileHistory = new SimpleBooleanProperty(true);
     private BooleanProperty saveOnEachFileSave = new SimpleBooleanProperty(true);
-    private IntegerProperty savePeriodically = new SimpleIntegerProperty(-1);
+    private IntegerProperty savePeriodically = new SimpleIntegerProperty(5);
     private BooleanProperty saveUnderCurrentDir = new SimpleBooleanProperty(false);
     private BooleanProperty saveUnderGlobalDir = new SimpleBooleanProperty(true);
+    private ObjectProperty<String> globalFileHistoryRootDir = new SimpleObjectProperty<>();
 
     private Logger logger = LoggerFactory.getLogger(FileHistoryConfigBean.class);
 
@@ -74,14 +74,17 @@ public class FileHistoryConfigBean extends ConfigurationBase {
                         "saveOnEachFileSave",
                         "savePeriodically",
                         "saveUnderCurrentDir",
-                        "saveUnderGlobalDir"
+                        "saveUnderGlobalDir",
+                        "globalFileHistoryRootDir"
                 )
                 .build();
 
-        DefaultFactoryProvider editorConfigFormProvider = new DefaultFactoryProvider();
+        DefaultFactoryProvider fileHistoryFactoryProvider = new DefaultFactoryProvider();
+
+        fileHistoryFactoryProvider.addFactory(new NamedFieldHandler("globalFileHistoryRootDir"), new FolderChooserFactory("Change root file history directory", p -> {}));
 
         FileChooserEditableFactory fileChooserEditableFactory = new FileChooserEditableFactory();
-        editorConfigForm.setEditorFactoryProvider(editorConfigFormProvider);
+        editorConfigForm.setEditorFactoryProvider(fileHistoryFactoryProvider);
 
         fileChooserEditableFactory.setOnEdit(tabService::addTab);
 
@@ -217,5 +220,17 @@ public class FileHistoryConfigBean extends ConfigurationBase {
 
     public void setSaveUnderGlobalDir(boolean saveUnderGlobalDir) {
         this.saveUnderGlobalDir.set(saveUnderGlobalDir);
+    }
+
+    public String getGlobalFileHistoryRootDir() {
+        return globalFileHistoryRootDir.get();
+    }
+
+    public ObjectProperty<String> globalFileHistoryRootDirProperty() {
+        return globalFileHistoryRootDir;
+    }
+
+    public void setGlobalFileHistoryRootDir(String globalFileHistoryRootDir) {
+        this.globalFileHistoryRootDir.set(globalFileHistoryRootDir);
     }
 }

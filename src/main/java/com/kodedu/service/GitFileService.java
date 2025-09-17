@@ -2,6 +2,7 @@ package com.kodedu.service;
 
 import com.kodedu.component.AlertHelper;
 import com.kodedu.component.DiffEditor;
+import com.kodedu.config.FileHistoryConfigBean;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.other.RevContent;
 import com.kodedu.service.impl.DirectoryServiceImpl;
@@ -54,11 +55,13 @@ public class GitFileService {
 
     private final ThreadServiceImpl threadService;
     private final DirectoryServiceImpl directoryService;
+    private final FileHistoryConfigBean fileHistoryConfigBean;
 
-    public GitFileService(DiffEditor diffEditor, ThreadServiceImpl threadService, DirectoryServiceImpl directoryService) {
+    public GitFileService(DiffEditor diffEditor, ThreadServiceImpl threadService, DirectoryServiceImpl directoryService, FileHistoryConfigBean fileHistoryConfigBean) {
         this.diffEditor = diffEditor;
         this.threadService = threadService;
         this.directoryService = directoryService;
+        this.fileHistoryConfigBean = fileHistoryConfigBean;
     }
 
     public void commitFileChanges(Path workingDirectory, Path currentFile) {
@@ -389,10 +392,22 @@ public class GitFileService {
         }
 
         try {
+
+            String userHome = System.getProperty("user.home");
+            Path fileHistoryRoot = IOHelper.getPath(userHome).resolve("AsciidocFX-FileHistory-Root");
+
+            String globalFileHistoryRootDir = fileHistoryConfigBean.getGlobalFileHistoryRootDir();
+            if (Objects.isNull(globalFileHistoryRootDir)) {
+                String historyRootDir = fileHistoryRoot.toString();
+                threadService.runActionLater(() -> {
+                    fileHistoryConfigBean.setGlobalFileHistoryRootDir(historyRootDir);
+                });
+            } else {
+                fileHistoryRoot = Paths.get(globalFileHistoryRootDir);
+            }
             FileRepositoryBuilder builder = new FileRepositoryBuilder();
-            Path gitHome = Paths.get("/Users/usta/projects/AsciidocFX/gitroot");
             Path pathRelative = Paths.get(path.getRoot().relativize(path).toString());
-            Path gitRoot = gitHome.resolve(pathRelative);
+            Path gitRoot = fileHistoryRoot.resolve(pathRelative);
             Files.createDirectories(gitRoot);
             checkAndCreateRepository(gitRoot);
             Repository repository = builder.setGitDir(gitRoot.resolve(".git").toFile())

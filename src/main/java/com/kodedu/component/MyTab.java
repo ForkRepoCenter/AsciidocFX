@@ -1,5 +1,6 @@
 package com.kodedu.component;
 
+import com.kodedu.config.FileHistoryConfigBean;
 import com.kodedu.config.StoredConfigBean;
 import com.kodedu.controller.ApplicationController;
 import com.kodedu.service.GitFileService;
@@ -52,6 +53,9 @@ public class MyTab extends Tab {
 
     @Autowired
     private GitFileService gitFileService;
+
+    @Autowired
+    private FileHistoryConfigBean fileHistoryConfigBean;
 
     private final Logger logger = LoggerFactory.getLogger(MyTab.class);
 
@@ -282,7 +286,9 @@ public class MyTab extends Tab {
     public void saveDoc() {
         threadService.runActionLater(() -> {
             save();
-            recordFileHistory();
+            if (fileHistoryConfigBean.isSaveOnEachFileSave()) {
+                recordFileHistory();
+            }
         });
     }
 
