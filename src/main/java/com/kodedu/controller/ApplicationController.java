@@ -9,10 +9,7 @@ import com.kodedu.component.*;
 import com.kodedu.config.*;
 import com.kodedu.engine.AsciidocAsciidoctorjConverter;
 import com.kodedu.engine.AsciidocConverterProvider;
-import com.kodedu.helper.DesktopHelper;
-import com.kodedu.helper.FxHelper;
-import com.kodedu.helper.IOHelper;
-import com.kodedu.helper.TaskbarHelper;
+import com.kodedu.helper.*;
 import com.kodedu.keyboard.KeyHelper;
 import com.kodedu.logging.MyLog;
 import com.kodedu.logging.TableViewLogAppender;
@@ -67,8 +64,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -95,6 +93,7 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.env.Environment;
@@ -119,6 +118,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.BufferUnderflowException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -134,8 +134,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.kodedu.helper.IOHelper.containsPath;
-import static com.kodedu.helper.IOHelper.getInstallationPath;
+import static com.kodedu.helper.IOHelper.*;
 import static com.kodedu.other.Constants.DOC_FILE_ATTR;
 import static com.kodedu.service.extension.processor.DocumentAttributeProcessor.DOCUMENT_MAP;
 import static com.kodedu.service.extension.processor.DocumentAttributeProcessor.DOC_UUID;
@@ -393,6 +392,12 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
     private Scene markdownTableScene;
     private String VERSION_PATTERN = "\\.AsciidocFX-\\d+\\.\\d+\\.\\d+";
 
+    @Autowired
+    private GitFileService gitFileService;
+
+    @Autowired
+    private ClipboardHelper clipboardHelper;
+
     @PostConstruct
     public void install_listeners() {
         // Listen to working directory update events
@@ -629,7 +634,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
                 deleteSelectedItems(event);
             } else if (KeyHelper.isCopy(event)) {
                 event.consume();
-                this.copyFiles(tabService.getSelectedTabPaths());
+                clipboardHelper.copyFiles(tabService.getSelectedTabPaths());
             } else if (KeyHelper.isF2(event)) {
                 event.consume();
                 this.renameFile(event);
@@ -697,7 +702,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
             this.generateHtml(true);
         }));
         htmlProMenu.getItems().add(MenuItemBuilt.item("Copy source").tip("Copy HTML source").click(event -> {
-            this.cutCopy(lastConverterResult.getRendered());
+            clipboardHelper.cutCopy(lastConverterResult.getRendered());
         }));
         htmlProMenu.getItems().add(MenuItemBuilt.item("Clone source").tip("Copy HTML source (Embedded images)").click(event -> {
             htmlPane.call("imageToBase64Url", new Object[]{});
@@ -778,6 +783,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         liveReloadPane.webEngine().setOnAlert(event -> {
             if ("LIVE_LOADED".equals(event.getData())) {
                 liveReloadPane.setMember("afx", this);
+                liveReloadPane.setMember("clipboardHelper", clipboardHelper);
 //                current.currentEditor().rerender();
             }
         });
@@ -785,6 +791,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         htmlPane.webEngine().setOnAlert(event -> {
             if ("PREVIEW_LOADED".equals(event.getData())) {
                 htmlPane.setMember("afx", this);
+                htmlPane.setMember("clipboardHelper", clipboardHelper);
                 adocPreviewReadyLatch.countDown();
                 current.currentEditor().rerender();
             }
@@ -819,15 +826,15 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         openFileListItem.setOnAction(this::openRecentListFile);
 
         copyPathListItem.setOnAction(event -> {
-            this.cutCopy(recentListView.getSelectionModel().getSelectedItem().getPath().toString());
+            clipboardHelper.cutCopy(recentListView.getSelectionModel().getSelectedItem().getPath().toString());
         });
 
         copyTreeItem.setOnAction(event -> {
-            this.copyFiles(tabService.getSelectedTabPaths());
+            clipboardHelper.copyFiles(tabService.getSelectedTabPaths());
         });
 
         copyListItem.setOnAction(event -> {
-            this.copyFiles(recentListView.getSelectionModel()
+            clipboardHelper.copyFiles(recentListView.getSelectionModel()
                     .getSelectedItems().stream()
                     .map(e -> e.getPath()).collect(Collectors.toList()));
         });
@@ -1532,6 +1539,12 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
             }
         });
 
+        editorConfigBean.editorFontSizeProperty().addListener((observableValue, o, n) -> {
+            if (!Objects.equals(o, n)) {
+                applyTheme(editorConfigBean.getEditorTheme().get(0), getAllStages());
+            }
+        });
+
         editorConfigBean.getAceTheme().addListener((ListChangeListener<String>) c -> {
             c.next();
             if (c.wasAdded()) {
@@ -1903,10 +1916,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
                 clipboardString.append("\n\n");
             }
 
-            ClipboardContent clipboardContent = new ClipboardContent();
-            clipboardContent.putString(clipboardString.toString());
-
-            Clipboard.getSystemClipboard().setContent(clipboardContent);
+            clipboardHelper.cutCopy(clipboardString.toString());
         }));
 
         logViewer.setContextMenu(logViewerContextMenu);
@@ -2396,6 +2406,10 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
                 prependAsciidoctorConfig(textChangeEvent);
                 Document document = loadDocument(textChangeEvent);
 
+                if (Objects.isNull(document)) {
+                    return;
+                }
+
                 String backend = (String) document.getAttribute("backend", "html5");
 
                 EditorPane editorPane = current.currentEditor();
@@ -2577,26 +2591,6 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         });
     }
 
-    public void cutCopy(String data) {
-        ClipboardContent clipboardContent = new ClipboardContent();
-        clipboardContent.putString(data.replaceAll("\\R", "\n"));
-        Clipboard.getSystemClipboard().setContent(clipboardContent);
-    }
-
-    public void copyFiles(List<Path> paths) {
-
-        Optional.ofNullable(paths)
-                .filter((ps) -> !ps.isEmpty())
-                .ifPresent(ps -> {
-                    ClipboardContent clipboardContent = new ClipboardContent();
-                    clipboardContent.putFiles(ps
-                            .stream()
-                            .map(Path::toFile)
-                            .collect(Collectors.toList()));
-                    Clipboard.getSystemClipboard().setContent(clipboardContent);
-                });
-    }
-
     @WebkitCall(from = "asciidoctor")
     public String readDefaultStylesheet() {
 
@@ -2621,74 +2615,6 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         } else {
             return IOHelper.readFile(path);
         }
-    }
-
-    @WebkitCall
-    public String clipboardValue() {
-        return Clipboard.getSystemClipboard().getString();
-    }
-
-    @WebkitCall
-    public void pasteRaw() {
-
-        EditorPane editorPane = current.currentEditor();
-        Clipboard systemClipboard = Clipboard.getSystemClipboard();
-        if (systemClipboard.hasFiles()) {
-            Optional<String> block = parserService.toImageBlock(systemClipboard.getFiles());
-            if (block.isPresent()) {
-                editorPane.insert(block.get());
-                return;
-            }
-        }
-
-        if (systemClipboard.hasImage()) {
-            Image image = systemClipboard.getImage();
-            Optional<String> block = parserService.toImageBlock(image);
-            if (block.isPresent()) {
-                editorPane.insert(block.get());
-                return;
-            }
-        }
-
-        editorPane.execCommand("paste", clipboardValue());
-    }
-
-    @WebkitCall
-    public void paste() {
-
-        EditorPane editorPane = current.currentEditor();
-
-        Clipboard systemClipboard = Clipboard.getSystemClipboard();
-        if (systemClipboard.hasFiles()) {
-            Optional<String> block = parserService.toImageBlock(systemClipboard.getFiles());
-            if (block.isPresent()) {
-                editorPane.insert(block.get());
-                return;
-            }
-        }
-
-        if (systemClipboard.hasImage()) {
-            Image image = systemClipboard.getImage();
-            Optional<String> block = parserService.toImageBlock(image);
-            if (block.isPresent()) {
-                editorPane.insert(block.get());
-                return;
-            }
-        }
-
-        try {
-
-            if (systemClipboard.hasHtml()) {
-                String content = Optional.ofNullable(systemClipboard.getHtml()).orElse(systemClipboard.getString());
-                editorPane.insert(content);
-                return;
-            }
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-        }
-
-        editorPane.execCommand("paste", clipboardValue());
-
     }
 
     public void adjustSplitPane() {
@@ -3043,7 +2969,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
     @FXML
     public void copyPath(ActionEvent actionEvent) {
         Path path = tabService.getSelectedTabPath();
-        this.cutCopy(path.toString());
+        clipboardHelper.cutCopy(path.toString());
     }
 
     public void closeAllTabs(Event event) {
@@ -3338,11 +3264,22 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         threadService.runActionLater(() -> {
             try {
 
+                Integer editorFontSize = editorConfigBean.getEditorFontSize();
+
                 for (Stage stage : stages) {
                     if (nonNull(stage) && nonNull(stage.getScene())) {
-                        ObservableList<String> stylesheets = stage.getScene().getStylesheets();
+                        Scene stageScene = stage.getScene();
+                        Parent root = stageScene.getRoot();
+                        ObservableList<String> stylesheets = stageScene.getStylesheets();
                         stylesheets.clear();
                         stylesheets.add(themeUri);
+
+                        if (Objects.nonNull(editorFontSize)) {
+                            stylesheets.add("data:text/css;base64," + Base64.getEncoder()
+                                    .encodeToString(String.format(".root { -fx-font-size: %dpx; }", editorFontSize)
+                                            .getBytes(StandardCharsets.UTF_8)));
+                        }
+
                     }
                 }
 
@@ -3445,6 +3382,16 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 	public Menu getTemplateMenu() {
 		return menuTemplates;
 	}
+
+    public void showFileHistory(ActionEvent actionEvent) {
+        Path path = tabService.getSelectedTabPath();
+        Path workingDirectory = directoryService.workingDirectory();
+        threadService.runTaskLater(() -> {
+            if (Objects.nonNull(path) && Objects.nonNull(workingDirectory)) {
+                gitFileService.showFileHistory(workingDirectory, path);
+            }
+        });
+    }
 
     public void waitAdocPreviewReadyLatch() {
         try {

@@ -2,6 +2,7 @@ package com.kodedu.component;
 
 import com.kodedu.config.*;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.other.Current;
 import com.kodedu.service.DirectoryService;
 import com.kodedu.service.ThreadService;
@@ -31,8 +32,17 @@ public class HtmlPane extends ViewPanel {
     private final DirectoryService directoryService;
 
     @Autowired
-    public HtmlPane(ThreadService threadService, ApplicationController controller, Current current, PreviewConfigBean previewConfigBean, DocbookConfigBean docbookConfigBean, HtmlConfigBean htmlConfigBean, EditorConfigBean editorConfigBean, Environment environment, DirectoryService directoryService) {
-        super(threadService, controller, current, editorConfigBean);
+    public HtmlPane(ThreadService threadService,
+                    ApplicationController controller,
+                    Current current,
+                    PreviewConfigBean previewConfigBean,
+                    DocbookConfigBean docbookConfigBean,
+                    HtmlConfigBean htmlConfigBean,
+                    EditorConfigBean editorConfigBean,
+                    Environment environment,
+                    DirectoryService directoryService,
+                    ClipboardHelper clipboardHelper) {
+        super(threadService, controller, current, editorConfigBean, clipboardHelper);
         this.previewConfigBean = previewConfigBean;
         this.docbookConfigBean = docbookConfigBean;
         this.htmlConfigBean = htmlConfigBean;

@@ -7,6 +7,7 @@ import com.kodedu.component.MenuItemBuilt;
 import com.kodedu.component.MyTab;
 import com.kodedu.config.StoredConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.helper.OSHelper;
 import com.kodedu.helper.FxHelper;
@@ -14,6 +15,7 @@ import com.kodedu.other.Current;
 import com.kodedu.other.ExtensionFilters;
 import com.kodedu.other.Item;
 import com.kodedu.service.DirectoryService;
+import com.kodedu.service.GitFileService;
 import com.kodedu.service.PathResolverService;
 import com.kodedu.service.ThreadService;
 import com.kodedu.service.ui.EditorService;
@@ -88,6 +90,12 @@ public class TabServiceImpl implements TabService {
     private String epubUrl;
 
     private ObservableList<Optional<Path>> closedPaths = FXCollections.observableArrayList();
+
+    @Autowired
+    private GitFileService gitFileService;
+
+    @Autowired
+    private ClipboardHelper clipboardHelper;
 
     @Autowired
     public TabServiceImpl(final Current current, StoredConfigBean storedConfigBean, ApplicationContext applicationContext) {
@@ -245,16 +253,16 @@ public class TabServiceImpl implements TabService {
             tab.close();
         });
 
-        MenuItem menuItem0 = new MenuItem("Close");
-        menuItem0.setOnAction(actionEvent -> {
+        MenuItem closeMenu = new MenuItem("Close");
+        closeMenu.setOnAction(actionEvent -> {
             tab.close();
         });
 
-        MenuItem menuItem1 = new MenuItem("Close All");
-        menuItem1.setOnAction(controller::closeAllTabs);
+        MenuItem closeAll = new MenuItem("Close All");
+        closeAll.setOnAction(controller::closeAllTabs);
 
-        MenuItem menuItem2 = new MenuItem("Close Others");
-        menuItem2.setOnAction(event -> {
+        MenuItem closeOthers = new MenuItem("Close Others");
+        closeOthers.setOnAction(event -> {
 
             ObservableList<Tab> blackList = FXCollections.observableArrayList();
             blackList.addAll(tab.getTabPane().getTabs());
@@ -280,8 +288,8 @@ public class TabServiceImpl implements TabService {
             });
         });
 
-        MenuItem menuItem4 = new MenuItem("Select Next Tab");
-        menuItem4.setOnAction(actionEvent -> {
+        MenuItem selectNextTab = new MenuItem("Select Next Tab");
+        selectNextTab.setOnAction(actionEvent -> {
             TabPane tabPane = tab.getTabPane();
             if (tabPane.getSelectionModel().isSelected(tabPane.getTabs().size() - 1))
                 tabPane.getSelectionModel().selectFirst();
@@ -289,8 +297,8 @@ public class TabServiceImpl implements TabService {
                 tabPane.getSelectionModel().selectNext();
         });
 
-        MenuItem menuItem5 = new MenuItem("Select Previous Tab");
-        menuItem5.setOnAction(actionEvent -> {
+        MenuItem previousTab = new MenuItem("Select Previous Tab");
+        previousTab.setOnAction(actionEvent -> {
             SingleSelectionModel<Tab> selectionModel = tab.getTabPane().getSelectionModel();
             if (selectionModel.isSelected(0))
                 selectionModel.selectLast();
@@ -298,8 +306,8 @@ public class TabServiceImpl implements TabService {
                 selectionModel.selectPrevious();
         });
 
-        MenuItem menuItem6 = new MenuItem("Reopen Closed Tab");
-        menuItem6.setOnAction(actionEvent -> {
+        MenuItem reopenClosedTab = new MenuItem("Reopen Closed Tab");
+        reopenClosedTab.setOnAction(actionEvent -> {
             if (closedPaths.size() > 0) {
                 int index = closedPaths.size() - 1;
                 closedPaths.get(index).filter(pathResolver::isAsciidoc).ifPresent(this::addTab);
@@ -309,26 +317,36 @@ public class TabServiceImpl implements TabService {
             }
         });
 
-        MenuItem menuItem7 = new MenuItem("Browse");
+        MenuItem browseMenu = new MenuItem("Browse");
 
-        menuItem7.setOnAction(event -> {
+        browseMenu.setOnAction(event -> {
             current.currentPath()
                     .ifPresent(controller::browseFileOrFolder);
         });
 
+        MenuItem showHistoryMenu = MenuItemBuilt.item("Show History").click(e -> {
+            Path path = tab.getPath();
+            Path workingDirectory = directoryService.workingDirectory();
+            threadService.runTaskLater(() -> {
+                if (Objects.nonNull(path) && Objects.nonNull(workingDirectory)) {
+                    gitFileService.showFileHistory(workingDirectory, path);
+                }
+            });
+        });
+
         MenuItem copyItem = MenuItemBuilt.item("Copy").click(event -> {
             Optional.ofNullable(tab.getPath())
-                    .ifPresent(path -> controller.copyFiles(Arrays.asList(path)));
+                    .ifPresent(path -> clipboardHelper.copyFiles(Arrays.asList(path)));
         });
 
         MenuItem copyPathItem = MenuItemBuilt.item("Copy Path").click(event -> {
             Optional.ofNullable(tab.getPath())
                     .map(Path::toString)
-                    .ifPresent(controller::cutCopy);
+                    .ifPresent(clipboardHelper::cutCopy);
         });
 
-        MenuItem menuItem8 = new MenuItem("New File");
-        menuItem8.setOnAction(controller::newDoc);
+        MenuItem newFileMenu = new MenuItem("New File");
+        newFileMenu.setOnAction(controller::newDoc);
 
         MenuItem reloadMenuItem = new MenuItem("Reload");
         reloadMenuItem.setOnAction(event -> {
@@ -341,10 +359,10 @@ public class TabServiceImpl implements TabService {
         });
 
         ContextMenu contextMenu = new ContextMenu();
-        contextMenu.getItems().addAll(menuItem0, menuItem1, menuItem2, new SeparatorMenuItem(),
-                menuItem4, menuItem5, menuItem6, new SeparatorMenuItem(), reloadMenuItem,
+        contextMenu.getItems().addAll(closeMenu, closeAll, closeOthers, new SeparatorMenuItem(),
+                selectNextTab, previousTab, reopenClosedTab, new SeparatorMenuItem(), reloadMenuItem,
                 new SeparatorMenuItem(), gotoWorkdir, new SeparatorMenuItem(),
-                menuItem7, copyItem, copyPathItem, menuItem8);
+                showHistoryMenu, browseMenu, copyItem, copyPathItem, newFileMenu);
 
         tab.contextMenuProperty().setValue(contextMenu);
         Label label = tab.getLabel();

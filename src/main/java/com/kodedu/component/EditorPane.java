@@ -9,7 +9,9 @@ import com.kodedu.config.FoldStyle;
 import com.kodedu.config.ShortCutConfigBean;
 import com.kodedu.config.SpellcheckConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.FxHelper;
+import com.kodedu.service.GitFileService;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.service.DirectoryService;
 import com.kodedu.service.ParserService;
@@ -110,6 +112,9 @@ public class EditorPane extends AnchorPane {
     @Value("${application.preview.url}")
     private String previewUrl;
 
+    @Autowired
+    private GitFileService gitFileService;
+
     private final DirectoryService directoryService;
     private ContextMenu contextMenu;
     private Number pageX;
@@ -119,6 +124,9 @@ public class EditorPane extends AnchorPane {
     private Object attributesLock = new Object();
     private Document lastDocument;
     private EventHandler contextMenuRequested;
+
+    @Autowired
+    private ClipboardHelper clipboardHelper;
 
     @Autowired
     public EditorPane(ApplicationController controller, EditorConfigBean editorConfigBean, ThreadService threadService, ShortcutProvider shortcutProvider, ApplicationContext applicationContext, TabService tabService, AsciiTreeGenerator asciiTreeGenerator, ParserService parserService, SpellcheckConfigBean spellcheckConfigBean, ShortCutConfigBean shortCutConfigBean, DirectoryService directoryService) {
@@ -206,6 +214,7 @@ public class EditorPane extends AnchorPane {
     private void afterEditorLoaded() {
         getWindow().setMember("afx", controller);
         getWindow().setMember("editorPane", this);
+        getWindow().setMember("clipboardHelper", clipboardHelper);
         updateOptions();
 
         threadService.runTaskLater(() -> {
@@ -524,17 +533,17 @@ public class EditorPane extends AnchorPane {
         contextMenu = new ContextMenu();
 
         MenuItem cut = MenuItemBuilt.item("Cut").click(e -> {
-            controller.cutCopy(editorSelection());
+            clipboardHelper.cutCopy(editorSelection());
             execCommand("cut");
         });
         MenuItem copy = MenuItemBuilt.item("Copy").click(e -> {
-            controller.cutCopy(editorSelection());
+            clipboardHelper.cutCopy(editorSelection());
         });
         MenuItem pasteConverted = MenuItemBuilt.item("Paste converted").click(e -> {
-            controller.paste();
+            clipboardHelper.paste(this);
         });
         MenuItem paste = MenuItemBuilt.item("Paste").click(e -> {
-            controller.pasteRaw();
+            clipboardHelper.pasteRaw(this);
         });
         MenuItem indexSelection = MenuItemBuilt.item("Index selection").click(e -> {
             shortcutProvider.getProvider().addIndexSelection();

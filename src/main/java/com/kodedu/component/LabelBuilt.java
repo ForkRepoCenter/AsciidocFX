@@ -18,10 +18,9 @@ public class LabelBuilt {
         this.label = label;
     }
 
-    public static LabelBuilt icon(Ikon ikon, double minSize) {
+    public static LabelBuilt icon(Ikon ikon) {
         Label iconLabel = new Label();
         iconLabel.setGraphic(new FontIcon(ikon));
-        iconLabel.setMinWidth(minSize);
         return new LabelBuilt(iconLabel);
     }
 

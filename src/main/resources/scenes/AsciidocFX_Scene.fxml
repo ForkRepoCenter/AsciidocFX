@@ -15,7 +15,8 @@
             <right>
                 <VBox prefWidth="20.0" fx:id="rightTooglesBox">
                     <ToggleButton styleClass="corner-toggle-button,corner-bottom-half" selected="true"
-                                  onAction="#togglePreviewView" prefHeight="80" prefWidth="20">
+                                  onAction="#togglePreviewView"
+                                  prefWidth="20">
                         <toggleGroup>
                             <ToggleGroup fx:id="rightToggleGroup"/>
                         </toggleGroup>
@@ -31,7 +32,7 @@
                     <ToggleButton toggleGroup="$rightToggleGroup" styleClass="corner-toggle-button,corner-bottom-half"
                                   onAction="#toggleZenMode"
                                   fx:id="toggleZenButton"
-                                  prefHeight="90" prefWidth="20">
+                                  prefWidth="20">
                         <graphic>
                             <Group>
                                 <Label text="Preview Only" rotate="90"></Label>
@@ -44,7 +45,7 @@
                     <ToggleButton toggleGroup="$rightToggleGroup" styleClass="corner-toggle-button,corner-bottom-half"
                                   onAction="#toggleConfigurationView"
                                   fx:id="toggleConfigButton"
-                                  prefHeight="80" prefWidth="20">
+                                  prefWidth="20">
                         <graphic>
                             <Group>
                                 <Label text="Settings" rotate="90"></Label>
@@ -61,7 +62,8 @@
                     <Pane prefWidth="20"></Pane>
                     <ToggleButton styleClass="corner-toggle-button,corner-right-half"
                                   fx:id="terminalToggleButton"
-                                  onAction="#toggleTerminalView" prefHeight="20" prefWidth="80">
+                                  onAction="#toggleTerminalView"
+                                  prefHeight="20">
                         <toggleGroup>
                             <ToggleGroup fx:id="bottomToggleGroup"/>
                         </toggleGroup>
@@ -76,7 +78,7 @@
                     </ToggleButton>
                     <ToggleButton toggleGroup="$bottomToggleGroup" styleClass="corner-toggle-button,corner-right-half"
                                   fx:id="logToggleButton"
-                                  onAction="#toggleLogView" prefHeight="20" prefWidth="80">
+                                  onAction="#toggleLogView" prefHeight="20">
 
                         <graphic>
                             <Group>
@@ -102,8 +104,7 @@
                 <VBox prefWidth="20.0">
                     <children>
                         <ToggleButton styleClass="corner-toggle-button,corner-bottom-half" selected="true"
-                                      onAction="#toggleWorkdirView" fx:id="workdirToggle" prefHeight="80"
-                                      prefWidth="20">
+                                      onAction="#toggleWorkdirView" fx:id="workdirToggle" prefWidth="20">
                             <toggleGroup>
                                 <ToggleGroup fx:id="leftToggleGroup"/>
                             </toggleGroup>
@@ -119,7 +120,7 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleOutlineView"
-                                      prefHeight="80" prefWidth="20">
+                                      prefWidth="20">
 
                             <graphic>
                                 <Group>
@@ -133,7 +134,7 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleXrefView"
-                                      prefHeight="80" prefWidth="20">
+                                      prefWidth="20">
 
                             <graphic>
                                 <Group>
@@ -147,7 +148,7 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleRecentView"
-                                      prefHeight="80" prefWidth="20">
+                                      prefWidth="20">
                             <graphic>
                                 <Group>
                                     <Label text="Recent" rotate="-90"></Label>
@@ -298,6 +299,11 @@
                                                                         <MenuItem fx:id="deletePathItem"
                                                                                   mnemonicParsing="false"
                                                                                   text="Delete"/>
+                                                                        <SeparatorMenuItem/>
+                                                                        <MenuItem
+                                                                                  onAction="#showFileHistory"
+                                                                                  mnemonicParsing="false"
+                                                                                  text="Show History"/>
                                                                     </items>
                                                                 </ContextMenu>
                                                             </contextMenu>

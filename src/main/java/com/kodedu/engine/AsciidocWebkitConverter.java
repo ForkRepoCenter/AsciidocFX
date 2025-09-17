@@ -4,6 +4,7 @@ import com.kodedu.component.ViewPanel;
 import com.kodedu.config.*;
 import com.kodedu.controller.ApplicationController;
 import com.kodedu.controller.TextChangeEvent;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.other.ConverterResult;
 import com.kodedu.other.Current;
@@ -46,8 +47,17 @@ public class AsciidocWebkitConverter extends ViewPanel implements AsciidocConver
     private final DirectoryService directoryService;
 
     @Autowired
-    public AsciidocWebkitConverter(ThreadService threadService, ApplicationController controller, Current current, EditorConfigBean editorConfigBean, PreviewConfigBean previewConfigBean, DocbookConfigBean docbookConfigBean, HtmlConfigBean htmlConfigBean, AsciidocConfigMerger configMerger, DirectoryService directoryService) {
-        super(threadService, controller, current, editorConfigBean);
+    public AsciidocWebkitConverter(ThreadService threadService,
+                                   ApplicationController controller,
+                                   Current current,
+                                   EditorConfigBean editorConfigBean,
+                                   PreviewConfigBean previewConfigBean,
+                                   DocbookConfigBean docbookConfigBean,
+                                   HtmlConfigBean htmlConfigBean,
+                                   AsciidocConfigMerger configMerger,
+                                   DirectoryService directoryService,
+                                   ClipboardHelper clipboardHelper) {
+        super(threadService, controller, current, editorConfigBean, clipboardHelper);
         this.previewConfigBean = previewConfigBean;
         this.docbookConfigBean = docbookConfigBean;
         this.htmlConfigBean = htmlConfigBean;

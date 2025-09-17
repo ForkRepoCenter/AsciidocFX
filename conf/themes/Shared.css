@@ -18,11 +18,11 @@
 }
 
 .root {
-    -fx-font-size: 1em;
+    -fx-font-size: 10px;
     -fx-font-family: 'Arial' ,'Verdana', 'Calibri';
 }
 
-.ikonli-font-icon {
+.root .ikonli-font-icon {
     -fx-icon-color: -fx-text-base-color;
     -fx-font-size: 1.4em;
 }
@@ -113,7 +113,7 @@
 
 .tooltip {
     -fx-border-radius: 0.5em;
-    -fx-font-size: 12px;
+    -fx-font-size: 1em;
 }
 
 .top-menu {
@@ -168,12 +168,6 @@
     -fx-padding: 0.5em 0.5em 0.5em 0;
 }
 
-.output-button {
-    -fx-cursor: hand;
-    -fx-font-size: 1.1em;
-    -fx-font-weight: bold;
-}
-
 .scroll-pane, .table-view {
     /*-fx-border-color: -fx-base !important;*/
     /*-fx-focus-color:  -fx-base !important;*/
@@ -197,6 +191,15 @@
     -fx-background-radius: 0 !important;
     -fx-border-style: solid;
     -fx-background-color: -fx-base !important;
+
+}
+
+.corner-right-half {
+    -fx-padding: 2px 7px 2px 7px;
+}
+
+.corner-bottom-half{
+    -fx-padding: 7px 2px 7px 2px;
 }
 
 .corner-bottom-half, .corner-right-half {
@@ -242,7 +245,9 @@
 /* Output Buttons */
 
 .output-button {
-    -fx-font-size: 1.3em !important;
+    -fx-cursor: hand;
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
 }
 
 .output-button.browser *, .output-button.browser {

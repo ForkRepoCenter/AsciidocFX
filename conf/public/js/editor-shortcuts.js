@@ -27,7 +27,7 @@ editor.commands.addCommand({
             return;
         }
 
-        afx.cutCopy(editor.getCopyText());
+        clipboardHelper.cutCopy(editor.getCopyText());
         editor.execCommand("cut");
 
     },
@@ -48,7 +48,7 @@ editor.commands.addCommand({
     description : 'Copies the selection in editor',
     bindKey: {win: 'Ctrl-C', mac: 'Command-C'},
     exec: function (editor) {
-        afx.cutCopy(editor.getCopyText());
+        clipboardHelper.cutCopy(editor.getCopyText());
         editor.execCommand("copy");
     },
     readOnly: true
@@ -60,7 +60,7 @@ editor.commands.addCommand({
     bindKey: {win: 'Ctrl-Shift-V', mac: 'Command-Shift-V'},
     exec: function (editor) {
 
-        afx.paste();
+        clipboardHelper.paste(editorPane);
 
         //editor.execCommand("paste");
     },
@@ -71,8 +71,8 @@ editor.commands.addCommand({
 //     name: 'paste-raw-1',
 //     bindKey: {win: 'Ctrl-V', mac: 'Command-V'},
 //     exec: function (editor) {
-//         //afx.pasteRaw();
-//         var text = afx.clipboardValue();
+//         //clipboardHelper.pasteRaw();
+//         var text = clipboardValue.clipboardValue();
 //
 //         if (!editor.inMultiSelectMode || editor.inVirtualSelectionMode) {
 //             editor.insert(text);
@@ -230,7 +230,7 @@ var editorMenu = {
         addHyperLink: function () {
             var cursorPosition = editor.getCursorPosition();
             var session = editor.getSession();
-            var pasted = afx.clipboardValue();
+            var pasted = clipboardValue.clipboardValue();
             if (isURL(pasted)) {
                 if (pasted.indexOf("http") == -1)
                     session.insert(cursorPosition, "http://" + pasted + "[text]");
@@ -456,7 +456,7 @@ var editorMenu = {
         addHyperLink: function () {
             var cursorPosition = editor.getCursorPosition();
             var session = editor.getSession();
-            var pasted = afx.clipboardValue();
+            var pasted = clipboardValue.clipboardValue();
             if (isURL(pasted)) {
                 session.insert(cursorPosition, "[text](" + pasted + ")");
                 return;

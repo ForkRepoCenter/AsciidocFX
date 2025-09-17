@@ -48,92 +48,89 @@ public class EditorServiceImpl implements EditorService {
     @Override
     public Node createEditorVBox(EditorPane editorPane, MyTab myTab) {
         FlowPane flowPane = new FlowPane();
-        String iconSize = "14.0";
-        double minSize = 14.01;
 
-
-        final Label saveLabel = LabelBuilt.icon(FontAwesome.SAVE, minSize)
+        final Label saveLabel = LabelBuilt.icon(FontAwesome.SAVE)
                 .clazz("top-label")
                 .tip("Save").click(controller::saveDoc).build();
 
-        final Label newLabel = LabelBuilt.icon(FontAwesome.FILE_TEXT_O, minSize)
+        final Label newLabel = LabelBuilt.icon(FontAwesome.FILE_TEXT_O)
                 .clazz("top-label").tip("New File").click(controller::newDoc).build();
 
-        final Label openLabel = LabelBuilt.icon(FontAwesome.FOLDER_OPEN_O, minSize)
+        final Label openLabel = LabelBuilt.icon(FontAwesome.FOLDER_OPEN_O)
                 .clazz("top-label").tip("Open File").click(controller::openDoc).build();
 
-        final Label boldLabel = LabelBuilt.icon(FontAwesome.BOLD, minSize)
+        final Label boldLabel = LabelBuilt.icon(FontAwesome.BOLD)
                 .clazz("top-label").tip("Bold").click(event -> {
                     shortcutProvider.getProvider().addBold();
                 }).build();
 
-        final Label italicLabel = LabelBuilt.icon(FontAwesome.ITALIC, minSize)
+        final Label italicLabel = LabelBuilt.icon(FontAwesome.ITALIC)
                 .clazz("top-label").tip("Italic").click(event -> {
                     shortcutProvider.getProvider().addItalic();
                 }).build();
 
-        final Label headerLabel = LabelBuilt.icon(FontAwesome.HEADER, minSize)
+        final Label headerLabel = LabelBuilt.icon(FontAwesome.HEADER)
                 .clazz("top-label").tip("Headings").click(event -> {
                     shortcutProvider.getProvider().addHeading();
                 }).build();
 
-        final Label codeLabel = LabelBuilt.icon(FontAwesome.CODE, minSize)
+        final Label codeLabel = LabelBuilt.icon(FontAwesome.CODE)
                 .clazz("top-label").tip("Code Snippet").click(event -> {
                     shortcutProvider.getProvider().addCode("");
                 }).build();
 
-        final Label ulListLabel = LabelBuilt.icon(FontAwesome.LIST_UL, minSize)
+        final Label ulListLabel = LabelBuilt.icon(FontAwesome.LIST_UL)
                 .clazz("top-label").tip("Bulleted List").click(event -> {
                     shortcutProvider.getProvider().addUnorderedList();
                 }).build();
 
-        final Label olListLabel = LabelBuilt.icon(FontAwesome.LIST_ALT, minSize)
+        final Label olListLabel = LabelBuilt.icon(FontAwesome.LIST_ALT)
                 .clazz("top-label").tip("Numbered List").click(event -> {
                     shortcutProvider.getProvider().addOrderedList();
                 }).build();
 
-        final Label tableLabel = LabelBuilt.icon(FontAwesome.TABLE, minSize)
+        final Label tableLabel = LabelBuilt.icon(FontAwesome.TABLE)
                 .clazz("top-label").tip("Table").click(event -> {
                     shortcutProvider.getProvider().addTable();
                     ;
                 }).build();
 
-        final Label imageLabel = LabelBuilt.icon(FontAwesome.IMAGE, minSize)
+        final Label imageLabel = LabelBuilt.icon(FontAwesome.IMAGE)
                 .clazz("top-label").tip("Image").click(event -> {
                     shortcutProvider.getProvider().addImage();
                 }).build();
 
-        final Label subscriptLabel = LabelBuilt.icon(FontAwesome.SUBSCRIPT, minSize)
+        final Label subscriptLabel = LabelBuilt.icon(FontAwesome.SUBSCRIPT)
                 .clazz("top-label").tip("Subscript").click(event -> {
                     shortcutProvider.getProvider().addSubscript();
                 }).build();
 
-        final Label superScriptLabel = LabelBuilt.icon(FontAwesome.SUPERSCRIPT, minSize)
+        final Label superScriptLabel = LabelBuilt.icon(FontAwesome.SUPERSCRIPT)
                 .clazz("top-label").tip("Superscript").click(event -> {
                     shortcutProvider.getProvider().addSuperscript();
                 }).build();
 
-        final Label underlineLabel = LabelBuilt.icon(FontAwesome.UNDERLINE, minSize)
+        final Label underlineLabel = LabelBuilt.icon(FontAwesome.UNDERLINE)
                 .clazz("top-label").tip("Underline").click(event -> {
                     shortcutProvider.getProvider().addUnderline();
                 }).build();
 
-        final Label hyperlinkLabel = LabelBuilt.icon(FontAwesome.LINK, minSize)
+        final Label hyperlinkLabel = LabelBuilt.icon(FontAwesome.LINK)
                 .clazz("top-label").tip("Hyperlink").click(event -> {
                     shortcutProvider.getProvider().addHyperlink();
                 }).build();
 
-        final Label strikethroughLabel = LabelBuilt.icon(FontAwesome.STRIKETHROUGH, minSize)
+        final Label strikethroughLabel = LabelBuilt.icon(FontAwesome.STRIKETHROUGH)
                 .clazz("top-label").tip("Strikethrough").click(event -> {
                     shortcutProvider.getProvider().addStrike();
                 }).build();
 
-        final Label quoteLabel = LabelBuilt.icon(FontAwesome.QUOTE_LEFT, minSize)
+        final Label quoteLabel = LabelBuilt.icon(FontAwesome.QUOTE_LEFT)
                 .clazz("top-label").tip("Blockquote").click(event -> {
                     shortcutProvider.getProvider().addQuote();
                 }).build();
 
-        final Label openMenuLabel = LabelBuilt.icon(FontAwesome.CHEVRON_CIRCLE_DOWN, minSize)
+        final Label openMenuLabel = LabelBuilt.icon(FontAwesome.CHEVRON_CIRCLE_DOWN)
                 .clazz("top-label").tip("More...").build();
 
         Pane placeholderPane = new Pane();
@@ -146,7 +143,7 @@ public class EditorServiceImpl implements EditorService {
 
         openMenuLabel.setOnMouseClicked(event -> {
             if (moreMenuButtons.isEmpty()) {
-                moreMenuButtons.addAll(createMoreMenuButtons(iconSize, minSize));
+                moreMenuButtons.addAll(createMoreMenuButtons());
             }
 
             openMenuLabel.setRotate(openMenuLabel.getRotate() + 180);
@@ -227,7 +224,7 @@ public class EditorServiceImpl implements EditorService {
         return new VBox(flowPane, scrollPane);
     }
 
-    private List<Node> createMoreMenuButtons(final String iconSize, final double minSize) {
+    private List<Node> createMoreMenuButtons() {
 
         MenuButton admonitionButton = new MenuButton("Admonitions");
         admonitionButton.setFocusTraversable(false);

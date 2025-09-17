@@ -5,6 +5,7 @@ import com.kodedu.component.ViewPanel;
 import com.kodedu.config.*;
 import com.kodedu.controller.ApplicationController;
 import com.kodedu.controller.TextChangeEvent;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.other.ConverterResult;
 import com.kodedu.other.Current;
 import com.kodedu.other.RefProps;
@@ -51,8 +52,9 @@ public class AsciidocAsciidoctorjConverter extends ViewPanel implements Asciidoc
 										 Current current, EditorConfigBean editorConfigBean,
 										 PreviewConfigBean previewConfigBean,
 										 RevealjsConfigBean revealjsConfigBean,
-										 XrefDocumentProcessor xrefDocumentProcessor) {
-		super(threadService, controller, current, editorConfigBean);
+										 XrefDocumentProcessor xrefDocumentProcessor,
+										 ClipboardHelper clipboardHelper) {
+		super(threadService, controller, current, editorConfigBean, clipboardHelper);
 		this.previewConfigBean = previewConfigBean;
 		this.threadService = threadService;
 		this.revealjsConfigBean = revealjsConfigBean;
@@ -125,7 +127,7 @@ public class AsciidocAsciidoctorjConverter extends ViewPanel implements Asciidoc
 		                         .backend(backend)
 		                         .baseDir(workdir.toFile())
 		                         .safe(safe)
-		                         .sourcemap(configBean.getSourcemap())
+		                         .sourcemap(true)
 								 .catalogAssets(true)
 		                         .headerFooter(true)
 				                 .inPlace(false)

@@ -24,7 +24,7 @@ function updateBase64Url(index, base64) {
 
     var imageUrl = "data:image/png;base64," + base64;
     clonedContent.find("img").eq(index).attr("src", imageUrl);
-    afx.cutCopy(clonedContent.html());
+    clipboardValue.cutCopy(clonedContent.html());
 }
 
 function refreshUI(data) {

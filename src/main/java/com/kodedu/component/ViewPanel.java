@@ -3,6 +3,7 @@ package com.kodedu.component;
 import com.kodedu.config.BrowserType;
 import com.kodedu.config.EditorConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.FxHelper;
 import com.kodedu.keyboard.KeyHelper;
 import com.kodedu.other.Current;
@@ -14,12 +15,8 @@ import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -60,6 +57,7 @@ public abstract class ViewPanel extends AnchorPane {
     protected final ApplicationController controller;
     protected final Current current;
     protected final EditorConfigBean editorConfigBean;
+    protected final ClipboardHelper clipboardHelper;
     protected WebView webView;
 
     protected static final BooleanProperty stopScrolling = new SimpleBooleanProperty(false);
@@ -68,11 +66,16 @@ public abstract class ViewPanel extends AnchorPane {
     @Value("${application.generic.url}")
     private String genericUrl;
 
-    protected ViewPanel(ThreadService threadService, ApplicationController controller, Current current, EditorConfigBean editorConfigBean) {
+    protected ViewPanel(ThreadService threadService,
+                        ApplicationController controller,
+                        Current current,
+                        EditorConfigBean editorConfigBean,
+                        ClipboardHelper clipboardHelper) {
         this.threadService = threadService;
         this.controller = controller;
         this.current = current;
         this.editorConfigBean = editorConfigBean;
+        this.clipboardHelper = clipboardHelper;
     }
 
     @PostConstruct
@@ -354,6 +357,7 @@ public abstract class ViewPanel extends AnchorPane {
     public void setOnSuccess(Runnable runnable) {
         threadService.runActionLater(() -> {
             getWindow().setMember("afx", controller);
+            getWindow().setMember("clipboardHelper", clipboardHelper);
             Worker<Void> loadWorker = webEngine().getLoadWorker();
             ReadOnlyObjectProperty<Worker.State> stateProperty = loadWorker.stateProperty();
             stateProperty.addListener((observable, oldValue, newValue) -> {

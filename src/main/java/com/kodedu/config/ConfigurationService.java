@@ -41,6 +41,7 @@ public class ConfigurationService {
     private final RevealjsConfigBean revealjsConfigBean;
     private final PdfConfigBean pdfConfigBean;
 	private final TemplatesConfigBean templatesConfigBean;
+    private final FileHistoryConfigBean fileHistoryConfigBean;
     private VBox configBox;
 
     @Autowired
@@ -51,7 +52,7 @@ public class ConfigurationService {
                                 SpellcheckConfigBean spellcheckConfigBean, TerminalConfigBean terminalConfigBean,
                                 ExtensionConfigBean extensionConfigBean, Epub3ConfigBean epub3ConfigBean,
                                 RevealjsConfigBean revealjsConfigBean, PdfConfigBean pdfConfigBean,
-                                TemplatesConfigBean templatesConfigBean) {
+                                TemplatesConfigBean templatesConfigBean, FileHistoryConfigBean fileHistoryConfigBean) {
         this.shortCutConfigBean = shortCutConfigBean;
         this.locationConfigBean = locationConfigBean;
         this.editorConfigBean = editorConfigBean;
@@ -68,6 +69,7 @@ public class ConfigurationService {
         this.revealjsConfigBean = revealjsConfigBean;
         this.pdfConfigBean = pdfConfigBean;
         this.templatesConfigBean = templatesConfigBean;
+        this.fileHistoryConfigBean = fileHistoryConfigBean;
     }
 
     public void loadConfigurations(Runnable... runnables) {
@@ -75,6 +77,7 @@ public class ConfigurationService {
         shortCutConfigBean.load();
         locationConfigBean.load();
         storedConfigBean.load();
+        fileHistoryConfigBean.load();
         editorConfigBean.load();
         previewConfigBean.load();
         htmlConfigBean.load();
@@ -100,7 +103,8 @@ public class ConfigurationService {
                 pdfConfigBean,
                 epub3ConfigBean,
                 revealjsConfigBean,
-                templatesConfigBean
+                templatesConfigBean,
+                fileHistoryConfigBean
 //                ,spellcheckConfigBean
         );
 

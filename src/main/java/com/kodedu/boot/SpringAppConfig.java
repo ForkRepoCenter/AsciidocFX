@@ -26,7 +26,6 @@ import com.kodedu.service.extension.math.inlinemacro.MathInlineMacroProcessor;
 import com.kodedu.service.extension.processor.CacheSuffixAppenderProcessor;
 import com.kodedu.service.extension.processor.DataLineProcessor;
 import com.kodedu.service.extension.processor.DocumentAttributeProcessor;
-import com.kodedu.service.extension.processor.ExtensionPreprocessor;
 import com.kodedu.service.extension.processor.XrefIncludeProcessor;
 import com.kodedu.service.extension.tree.FileTreeBlockMacroProcessor;
 import com.kodedu.service.extension.tree.FileTreeBlockProcessor;
@@ -44,11 +43,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.core.task.support.TaskExecutorAdapter;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 
+import javax.net.ssl.SSLContext;
 import java.util.Base64;
 import java.util.concurrent.Executors;
 
@@ -91,7 +92,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
     public Asciidoctor htmlDoctor(ChartBlockProcessor fxChartBlockProcessor,
                                   FileTreeBlockProcessor treeBlockProcessor,
                                   MathBlockProcessor[] mathBlockProcessor,
-                                  ExtensionPreprocessor extensionPreprocessor,
                                   FileTreeBlockMacroProcessor fileTreeBlockMacroProcessor,
                                   FileTreeInlineMacroProcessor fileTreeInlineMacroProcessor,
                                   DataLineProcessor dataLineProcessor,
@@ -108,7 +108,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
                     fxChartBlockProcessor,
                     treeBlockProcessor,
                     mathBlockProcessor,
-                    extensionPreprocessor,
                     fileTreeBlockMacroProcessor,
                     fileTreeInlineMacroProcessor,
                     dataLineProcessor,
@@ -129,7 +128,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
     public Asciidoctor revealDoctor(ChartBlockProcessor fxChartBlockProcessor,
                                   FileTreeBlockProcessor treeBlockProcessor,
                                   MathBlockProcessor[] mathBlockProcessor,
-                                  ExtensionPreprocessor extensionPreprocessor,
                                   FileTreeBlockMacroProcessor fileTreeBlockMacroProcessor,
                                   FileTreeInlineMacroProcessor fileTreeInlineMacroProcessor,
                                   DataLineProcessor dataLineProcessor,
@@ -146,7 +144,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
                     fxChartBlockProcessor,
                     treeBlockProcessor,
                     mathBlockProcessor,
-                    extensionPreprocessor,
                     fileTreeBlockMacroProcessor,
                     fileTreeInlineMacroProcessor,
                     dataLineProcessor,
@@ -175,7 +172,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
     public Asciidoctor nonHtmlDoctor(ChartBlockProcessor fxChartBlockProcessor,
                                      FileTreeBlockProcessor treeBlockProcessor,
                                      MathBlockProcessor[] mathBlockProcessor,
-                                     ExtensionPreprocessor extensionPreprocessor,
                                      FileTreeBlockMacroProcessor fileTreeBlockMacroProcessor,
                                      FileTreeInlineMacroProcessor fileTreeInlineMacroProcessor,
                                      DataLineProcessor dataLineProcessor,
@@ -190,7 +186,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
                     fxChartBlockProcessor,
                     treeBlockProcessor,
                     mathBlockProcessor,
-                    extensionPreprocessor,
                     fileTreeBlockMacroProcessor,
                     fileTreeInlineMacroProcessor,
                     dataLineProcessor,
@@ -224,7 +219,6 @@ public class SpringAppConfig extends SpringBootServletInitializer implements Web
                                                            ChartBlockProcessor fxChartBlockProcessor,
                                                            FileTreeBlockProcessor treeBlockProcessor,
                                                            MathBlockProcessor[] mathBlockProcessor,
-                                                           ExtensionPreprocessor extensionPreprocessor,
                                                            FileTreeBlockMacroProcessor fileTreeBlockMacroProcessor,
                                                            FileTreeInlineMacroProcessor fileTreeInlineMacroProcessor,
                                                            DataLineProcessor dataLineProcessor,

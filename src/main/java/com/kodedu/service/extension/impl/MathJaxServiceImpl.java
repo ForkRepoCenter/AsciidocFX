@@ -2,6 +2,7 @@ package com.kodedu.service.extension.impl;
 
 import com.kodedu.config.ExtensionConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.other.Current;
 import com.kodedu.other.TrimWhite;
@@ -52,6 +53,9 @@ public class MathJaxServiceImpl implements MathJaxService {
     private String mathjaxUrl;
 
     @Autowired
+    private ClipboardHelper clipboardHelper;
+
+    @Autowired
     public MathJaxServiceImpl(final ApplicationController controller, final Current current, ExtensionConfigBean extensionConfigBean) {
         this.controller = controller;
         this.current = current;
@@ -98,10 +102,12 @@ public class MathJaxServiceImpl implements MathJaxService {
 
             if (initialized) {
                 getWindow().setMember("afx", this);
+                getWindow().setMember("clipboardHelper", clipboardHelper);
                 getWindow().call("processFormula", formula, imageInfo, completableFuture);
             } else {
                 initialize(() -> {
                     getWindow().setMember("afx", this);
+                    getWindow().setMember("clipboardHelper", clipboardHelper);
                     getWindow().call("processFormula", formula, imageInfo, completableFuture);
                 });
             }

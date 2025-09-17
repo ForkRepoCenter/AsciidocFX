@@ -2,6 +2,7 @@ package com.kodedu.component;
 
 import com.kodedu.config.StoredConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.service.GitFileService;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.other.ExtensionFilters;
 import com.kodedu.other.Item;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +49,9 @@ public class MyTab extends Tab {
     private final TabService tabService;
     private final ApplicationController controller;
     private final ThreadService threadService;
+
+    @Autowired
+    private GitFileService gitFileService;
 
     private final Logger logger = LoggerFactory.getLogger(MyTab.class);
 
@@ -260,17 +265,40 @@ public class MyTab extends Tab {
         directoryService.setInitialDirectory(Optional.ofNullable(getPath().toFile()));
     }
 
-    public void saveDoc() {
-        threadService.runActionLater(this::save);
+    public void recordFileHistory() {
+        if (isNew() || isEmpty() || !isReady()) {
+            return;
+        }
+        Thread.startVirtualThread(() -> {
+            Path workingDirectory = directoryService.getWorkingDirectory().orElse(null);
+            Path currentFile = getPath();
+            if (Objects.isNull(workingDirectory) || Objects.isNull(currentFile)) {
+                return;
+            }
+            gitFileService.commitFileChanges(workingDirectory, currentFile);
+        });
     }
 
+    public void saveDoc() {
+        threadService.runActionLater(() -> {
+            save();
+            recordFileHistory();
+        });
+    }
+
+    public boolean isEmpty() {
+        return "".equals(this.getTabText());
+    }
 
     public boolean isNew() {
         return "new *".equals(this.getTabText());
     }
 
     public void select() {
-        this.getTabPane().getSelectionModel().select(this);
+        TabPane tabPane = this.getTabPane();
+        if (Objects.nonNull(tabPane)) {
+            tabPane.getSelectionModel().select(this);
+        }
     }
 
     public void closeIt() {
@@ -350,5 +378,9 @@ public class MyTab extends Tab {
 
     public Path getParentOrWorkdir() {
         return Optional.ofNullable(getPath()).map(Path::getParent).orElse(directoryService.workingDirectory());
+    }
+
+    public boolean isReady() {
+        return Objects.nonNull(editorPane) && editorPane.getReady();
     }
 }

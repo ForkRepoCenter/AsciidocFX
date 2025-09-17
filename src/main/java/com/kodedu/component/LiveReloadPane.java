@@ -2,6 +2,7 @@ package com.kodedu.component;
 
 import com.kodedu.config.EditorConfigBean;
 import com.kodedu.controller.ApplicationController;
+import com.kodedu.helper.ClipboardHelper;
 import com.kodedu.helper.IOHelper;
 import com.kodedu.other.Current;
 import com.kodedu.other.PositionalXMLReader;
@@ -29,11 +30,16 @@ public class LiveReloadPane extends ViewPanel {
     private BooleanProperty ready = new SimpleBooleanProperty(false);
 
     @Autowired
-    public LiveReloadPane(ThreadService threadService, ApplicationController controller, Current current, EditorConfigBean editorConfigBean) {
-        super(threadService, controller, current, editorConfigBean);
+    public LiveReloadPane(ThreadService threadService,
+                          ApplicationController controller,
+                          Current current,
+                          EditorConfigBean editorConfigBean,
+                          ClipboardHelper clipboardHelper) {
+        super(threadService, controller, current, editorConfigBean, clipboardHelper);
 
         setOnSuccess(() -> {
             this.setMember("afx", this);
+            this.setMember("clipboardHelper", clipboardHelper);
             this.initializeDiffReplacer();
         });
 
