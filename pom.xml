@@ -686,7 +686,7 @@
                                 --add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED
                                 --add-modules=javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web
                                 --add-modules=ALL-MODULE-PATH
-                                --module-path ./jmods/mac-jars
+                                --module-path ./jmods/mac-m1-jars
                             </jvmArguments>
                         </configuration>
                         <dependencies>

@@ -49,7 +49,7 @@ nashorn_code_cache
 
 *.p12
 
-jmods/mac-jars/
+jmods/mac-m1-jars/
 
 jars/
 
