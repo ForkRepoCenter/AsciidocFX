@@ -12,7 +12,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>21</java.version>
+        <java.version>25</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <mainClass>com.kodedu.boot.AppStarter</mainClass>
@@ -22,9 +22,9 @@
         <install4j.macKeyStorePassword>${env.MAC_KEYSTORE_PASSWORD}</install4j.macKeyStorePassword>
         <install4j.appSpecificPassword>${env.MAC_APP_PASSWORD}</install4j.appSpecificPassword>
         <install4j.winKeyStorePassword>${env.WIN_KEYSTORE_PASSWORD}</install4j.winKeyStorePassword>
-        <openjfx.version>22.0.1</openjfx.version>
+        <openjfx.version>25-ea+21</openjfx.version>
         <openjfx-monocle.version>jdk-21.0.1</openjfx-monocle.version>
-        <ikonli.version>12.3.1</ikonli.version>
+        <ikonli.version>12.4.0</ikonli.version>
         <jaxb.version>2.3.2</jaxb.version>
         <jacoco.version>0.8.7</jacoco.version>
         <logunit.version>1.1.0</logunit.version>
@@ -37,19 +37,19 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.1</version>
+        <version>3.5.3</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>io.github.toolfactory</groupId>
             <artifactId>jvm-driver</artifactId>
-            <version>9.7.1</version>
+            <version>9.9.10</version>
         </dependency>
         <dependency>
             <groupId>io.github.classgraph</groupId>
             <artifactId>classgraph</artifactId>
-            <version>4.8.174</version>
+            <version>4.8.180</version>
         </dependency>
         <dependency>
             <groupId>jakarta.json</groupId>
@@ -118,7 +118,7 @@
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
-            <version>2.9</version>
+            <version>2.11</version>
             <exclusions>
                 <exclusion>
                     <artifactId>servlet-api</artifactId>
@@ -220,12 +220,12 @@
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>open</artifactId>
-            <version>8.5.0</version>
+            <version>8.5.0.4</version>
         </dependency>
         <dependency>
             <groupId>com.kodedu.terminalfx</groupId>
             <artifactId>terminalfx</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0</version>
             <exclusions>
                 <exclusion>
                     <artifactId>error_prone_annotations</artifactId>
@@ -248,7 +248,7 @@
         <dependency>
             <groupId>com.ibm.icu</groupId>
             <artifactId>icu4j-charset</artifactId>
-            <version>74.2</version>
+            <version>77.1</version>
         </dependency>
 
         <dependency>
@@ -368,7 +368,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-indexer</artifactId>
-            <version>6.0.11</version>
+            <version>6.2.8</version>
             <optional>true</optional>
         </dependency>
 
@@ -378,15 +378,6 @@
         <finalName>AsciidocFX</finalName>
 
         <plugins>
-            <!--            <plugin>
-                            <groupId>org.springframework.boot</groupId>
-                            <artifactId>spring-boot-maven-plugin</artifactId>
-                            <version>${spring-boot.version}</version>
-                            <configuration>
-                                <mainClass>com.kodedu.boot.AppStarter</mainClass>
-                            </configuration>
-                        </plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -394,7 +385,7 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <compilerArgs>
-                        <compilerArg>--enable-preview</compilerArg>
+<!--                        <compilerArg>&#45;&#45;enable-preview</compilerArg>-->
                     </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
@@ -433,23 +424,6 @@
                     </execution>
                 </executions>
             </plugin>
-<!--            Remove scope=provided for javafx dependencies to run via javafx plugin-->
-<!--            <plugin>-->
-<!--                <groupId>org.openjfx</groupId>-->
-<!--                <artifactId>javafx-maven-plugin</artifactId>-->
-<!--                <version>0.0.8</version>-->
-<!--                <configuration>-->
-<!--                    <mainClass>com.kodedu.boot.AppStarter</mainClass>-->
-<!--                    <options>-->
-<!--                        <option>&#45;&#45;enable-preview</option>-->
-<!--                        <option>&#45;&#45;add-opens java.base/sun.nio.ch=ALL-UNNAMED</option>-->
-<!--                        <option>&#45;&#45;add-opens java.base/java.io=ALL-UNNAMED</option>-->
-<!--                        <option>&#45;&#45;add-opens javafx.controls/javafx.scene.control=ALL-UNNAMED</option>-->
-<!--                        <option>&#45;&#45;add-opens javafx.base/com.sun.javafx.collections=javafx.web</option>-->
-<!--                        <option>&#45;&#45;add-opens javafx.base/com.sun.javafx.collections=ALL-UNNAMED</option>-->
-<!--                    </options>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
         </plugins>
     </build>
 
@@ -641,6 +615,82 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>local-run</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <mainClass>com.kodedu.boot.AppStarter</mainClass>
+                            <jvmArguments>
+                                -XX:+OptimizeStringConcat
+                                -Duser.language=en
+                                -Duser.country=US
+                                -Dfile.encoding=UTF-8
+                                -Djava.awt.headless=false
+                                -Dsun.java2d.metal=true
+                                -Dorg.apache.xml.dtm.DTMManager=org.apache.xml.dtm.ref.DTMManagerDefault
+                                -Djdk.xml.xpathExprGrpLimit=0
+                                -Djdk.xml.xpathExprOpLimit=0
+                                -Djdk.xml.xpathTotalOpLimit=0
+                                -Djavafx.autoproxy.disable=true
+                                --enable-native-access=javafx.graphics
+                                --enable-native-access=javafx.web
+                                --enable-native-access=ALL-UNNAMED
+                                --add-opens=java.base/sun.nio.ch=ALL-UNNAMED
+                                --add-opens=java.base/java.io=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.scene.layout=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.util=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.logging=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.prism=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.glass.ui=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.geom.transform=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.glass.utils=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.font=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.scene.text=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.event=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.reflect=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.beans=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.collections=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.scene.traversal=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.stage=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.binding=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.geom=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.iio=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.prism.paint=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.scenario.effect=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.text=ALL-UNNAMED
+                                --add-opens=javafx.base/com.sun.javafx.collections=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.scenario.effect.impl.prism=ALL-UNNAMED
+                                --add-exports=javafx.graphics/com.sun.javafx.css=ALL-UNNAMED
+                                --add-opens=javafx.base/com.sun.javafx.collections=javafx.web
+                                --add-opens=javafx.controls/javafx.scene.control=ALL-UNNAMED
+                                --add-opens=javafx.controls/javafx.scene.control.skin=ALL-UNNAMED
+                                --add-opens=javafx.graphics/javafx.scene.input=ALL-UNNAMED
+                                --add-opens=javafx.web/javafx.scene.web=ALL-UNNAMED
+                                --add-opens=javafx.web/com.sun.webkit=ALL-UNNAMED
+                                --add-opens=javafx.controls/com.sun.javafx.scene.control.skin=ALL-UNNAMED
+                                --add-exports=javafx.base/com.sun.javafx.property=ALL-UNNAMED
+                                --add-exports=javafx.controls/com.sun.javafx.scene.control=ALL-UNNAMED
+                                --add-modules=javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web
+                                --add-modules=ALL-MODULE-PATH
+                                --module-path ./jmods/mac-jars
+                            </jvmArguments>
+                        </configuration>
+                        <dependencies>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
