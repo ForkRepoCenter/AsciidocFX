@@ -83,8 +83,8 @@ public class ExtensionConfigBean extends ConfigurationBase {
     private final ThreadService threadService;
     private final TabService tabService;
 
-    private final Button saveButton = new Button("Save");
-    private final Button loadButton = new Button("Load");
+    private final Button saveButton = new Button("保存");
+    private final Button loadButton = new Button("加载");
     private final Label infoLabel = new Label();
 
     @Autowired
@@ -98,7 +98,7 @@ public class ExtensionConfigBean extends ConfigurationBase {
 
     @Override
     public String formName() {
-        return "Extension Settings";
+        return "扩展设置";
     }
 
     @Override
@@ -141,7 +141,7 @@ public class ExtensionConfigBean extends ConfigurationBase {
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        fadeOut(infoLabel, "Loading...");
+        fadeOut(infoLabel, "加载中...");
 
         createConfigFileIfNotExist(configPath);
 
@@ -162,7 +162,7 @@ public class ExtensionConfigBean extends ConfigurationBase {
             this.setDefaultImageZoom(defaultImageZoom);
             this.setDefaultImageDpi(defaultImageDpi);
 
-            fadeOut(infoLabel, "Loaded...");
+            fadeOut(infoLabel, "已加载...");
 
         });
     }
@@ -170,9 +170,9 @@ public class ExtensionConfigBean extends ConfigurationBase {
     @Override
     public void save(ActionEvent... actionEvent) {
 
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     @Override

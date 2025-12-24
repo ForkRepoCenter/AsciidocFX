@@ -70,7 +70,7 @@ public class ShortCutConfigBean extends ConfigurationBase {
 
     @Override
     public String formName() {
-        return "Shortcut Settings";
+        return "快捷方式设置";
     }
 
     private class CheckBoxFactory implements Callback<Void, FXFormNode> {
@@ -110,7 +110,7 @@ public class ShortCutConfigBean extends ConfigurationBase {
 
         @Override
         public FXFormNode call(Void param) {
-            textField.setPromptText("Search in shortcuts");
+            textField.setPromptText("在快捷方式中搜索");
             return new FXFormNodeWrapper(textField, textField.textProperty());
         }
     }
@@ -179,10 +179,10 @@ public class ShortCutConfigBean extends ConfigurationBase {
         });
 
         DefaultFactoryProvider provider = new DefaultFactoryProvider();
-        provider.addFactory(new NamedFieldHandler("disable"), new DisableCheckBoxFactory("Disable custom shortcut handler."));
-        provider.addFactory(new NamedFieldHandler("debugMode"), new CheckBoxFactory("Enable shortcut debug mode"));
-        provider.addFactory(new NamedFieldHandler("keyTypeLimit"), new LabeledFieldFactory("Time in millis to ignores key_type events in case event match"));
-        provider.addFactory(new NamedFieldHandler("dumpMode"), new CheckBoxFactory("Dump all shortcuts in shortcut_config.json"));
+        provider.addFactory(new NamedFieldHandler("disable"), new DisableCheckBoxFactory("禁用自定义快捷方式处理器。"));
+        provider.addFactory(new NamedFieldHandler("debugMode"), new CheckBoxFactory("启用快捷方式调试模式"));
+        provider.addFactory(new NamedFieldHandler("keyTypeLimit"), new LabeledFieldFactory("在事件匹配的情况下忽略key_type事件的时间(毫秒)"));
+        provider.addFactory(new NamedFieldHandler("dumpMode"), new CheckBoxFactory("将所有快捷方式转储到shortcut_config.json"));
         provider.addFactory(new NamedFieldHandler("filter"), new FilterViewFactory());
         provider.addFactory(new NamedFieldHandler("shortcuts"), new ShortcutViewFactory());
         fxForm.setEditorFactoryProvider(provider);
@@ -246,7 +246,7 @@ public class ShortCutConfigBean extends ConfigurationBase {
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        fadeOut(infoLabel, "Loading...");
+        fadeOut(infoLabel, "加载中...");
 
         threadService.runTaskLater(() -> {
 
@@ -316,9 +316,9 @@ public class ShortCutConfigBean extends ConfigurationBase {
 
     @Override
     public void save(ActionEvent... actionEvent) {
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     @Override

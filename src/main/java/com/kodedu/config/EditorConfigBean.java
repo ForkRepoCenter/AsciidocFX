@@ -93,8 +93,8 @@ public class EditorConfigBean extends ConfigurationBase {
     private final ThreadService threadService;
     private final TabService tabService;
 
-    private final Button saveButton = new Button("Save");
-    private final Button loadButton = new Button("Load");
+    private final Button saveButton = new Button("保存");
+    private final Button loadButton = new Button("加载");
     private final Label infoLabel = new Label();
 
     @Autowired
@@ -532,7 +532,7 @@ public class EditorConfigBean extends ConfigurationBase {
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        fadeOut(infoLabel, "Loading...");
+        fadeOut(infoLabel, "加载中...");
 
         Future<List<String>> aceFuture;
         Future<List<String>> languageFeature;
@@ -689,7 +689,7 @@ public class EditorConfigBean extends ConfigurationBase {
                 this.setVerticalSplitter(secondSplitter.doubleValue());
             }
 
-            fadeOut(infoLabel, "Loaded...");
+            fadeOut(infoLabel, "已加载...");
 
         });
     }
@@ -777,9 +777,9 @@ public class EditorConfigBean extends ConfigurationBase {
     @Override
     public void save(ActionEvent... actionEvent) {
 
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     @Override
@@ -846,11 +846,11 @@ public class EditorConfigBean extends ConfigurationBase {
 
         public Theme(JsonObject jsonObject) {
             this.themeName = jsonObject.getString("theme-name");
-            Objects.requireNonNull(themeName, "Theme Name must nut be null");
+            Objects.requireNonNull(themeName, "主题名称不能为空");
             this.rootCss = jsonObject.getString("root-css");
-            Objects.requireNonNull(rootCss, "Root css must nut be null");
+            Objects.requireNonNull(rootCss, "根css必须为null");
             this.aceTheme = jsonObject.getString("ace-theme");
-            Objects.requireNonNull(aceTheme, "Ace theme must nut be null");
+            Objects.requireNonNull(aceTheme, "Ace主题不能为空");
             this.enabled = jsonObject.getBoolean("enabled", true);
         }
 

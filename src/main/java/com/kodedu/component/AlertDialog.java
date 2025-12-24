@@ -13,7 +13,7 @@ public class AlertDialog extends WindowModalAlert implements DefenderDialog {
 
     public AlertDialog() {
         super(AlertType.WARNING, null, ButtonType.YES, ButtonType.CANCEL);
-        super.setTitle("Warning");
+        super.setTitle("警告");
         super.initModality(Modality.WINDOW_MODAL);
         setDefaultIcon(super.getDialogPane());
         showAlwaysOnTop(this);

@@ -232,7 +232,7 @@ public class DiffEditor extends AbstractWebView {
                 RevContent first = lastTwo.get(0);
                 updateContent("", first.getContent(singlePath));
             } else {
-                AlertHelper.showAlert("Content not found");
+                AlertHelper.showAlert("未找到内容");
             }
         }
     }

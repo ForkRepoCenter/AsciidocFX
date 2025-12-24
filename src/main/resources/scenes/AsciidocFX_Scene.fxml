@@ -15,14 +15,13 @@
             <right>
                 <VBox prefWidth="20.0" fx:id="rightTooglesBox">
                     <ToggleButton styleClass="corner-toggle-button,corner-bottom-half" selected="true"
-                                  onAction="#togglePreviewView"
-                                  prefWidth="20">
+                                  onAction="#togglePreviewView" prefHeight="80" prefWidth="20">
                         <toggleGroup>
                             <ToggleGroup fx:id="rightToggleGroup"/>
                         </toggleGroup>
                         <graphic>
                             <Group>
-                                <Label text="Preview" rotate="90"></Label>
+                                <Label text="预览" rotate="90"></Label>
                             </Group>
                         </graphic>
                         <padding>
@@ -32,10 +31,10 @@
                     <ToggleButton toggleGroup="$rightToggleGroup" styleClass="corner-toggle-button,corner-bottom-half"
                                   onAction="#toggleZenMode"
                                   fx:id="toggleZenButton"
-                                  prefWidth="20">
+                                  prefHeight="90" prefWidth="20">
                         <graphic>
                             <Group>
-                                <Label text="Preview Only" rotate="90"></Label>
+                                <Label text="仅预览" rotate="90"></Label>
                             </Group>
                         </graphic>
                         <padding>
@@ -45,10 +44,10 @@
                     <ToggleButton toggleGroup="$rightToggleGroup" styleClass="corner-toggle-button,corner-bottom-half"
                                   onAction="#toggleConfigurationView"
                                   fx:id="toggleConfigButton"
-                                  prefWidth="20">
+                                  prefHeight="80" prefWidth="20">
                         <graphic>
                             <Group>
-                                <Label text="Settings" rotate="90"></Label>
+                                <Label text="设置" rotate="90"></Label>
                             </Group>
                         </graphic>
                         <padding>
@@ -62,14 +61,13 @@
                     <Pane prefWidth="20"></Pane>
                     <ToggleButton styleClass="corner-toggle-button,corner-right-half"
                                   fx:id="terminalToggleButton"
-                                  onAction="#toggleTerminalView"
-                                  prefHeight="20">
+                                  onAction="#toggleTerminalView" prefHeight="20" prefWidth="80">
                         <toggleGroup>
                             <ToggleGroup fx:id="bottomToggleGroup"/>
                         </toggleGroup>
                         <graphic>
                             <Group>
-                                <Label text="Terminal"></Label>
+                                <Label text="终端"></Label>
                             </Group>
                         </graphic>
                         <padding>
@@ -78,11 +76,11 @@
                     </ToggleButton>
                     <ToggleButton toggleGroup="$bottomToggleGroup" styleClass="corner-toggle-button,corner-right-half"
                                   fx:id="logToggleButton"
-                                  onAction="#toggleLogView" prefHeight="20">
+                                  onAction="#toggleLogView" prefHeight="20" prefWidth="80">
 
                         <graphic>
                             <Group>
-                                <Label text="Events"></Label>
+                                <Label text="事件"></Label>
                             </Group>
                         </graphic>
                         <padding>
@@ -104,13 +102,14 @@
                 <VBox prefWidth="20.0">
                     <children>
                         <ToggleButton styleClass="corner-toggle-button,corner-bottom-half" selected="true"
-                                      onAction="#toggleWorkdirView" fx:id="workdirToggle" prefWidth="20">
+                                      onAction="#toggleWorkdirView" fx:id="workdirToggle" prefHeight="80"
+                                      prefWidth="20">
                             <toggleGroup>
                                 <ToggleGroup fx:id="leftToggleGroup"/>
                             </toggleGroup>
                             <graphic>
                                 <Group>
-                                    <Label text="Workdir" rotate="-90"></Label>
+                                    <Label text="工作目录" rotate="-90"></Label>
                                 </Group>
                             </graphic>
                             <padding>
@@ -120,11 +119,11 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleOutlineView"
-                                      prefWidth="20">
+                                      prefHeight="80" prefWidth="20">
 
                             <graphic>
                                 <Group>
-                                    <Label text="Outline" rotate="-90"></Label>
+                                    <Label text="大纲" rotate="-90"></Label>
                                 </Group>
                             </graphic>
                             <padding>
@@ -134,11 +133,11 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleXrefView"
-                                      prefWidth="20">
+                                      prefHeight="80" prefWidth="20">
 
                             <graphic>
                                 <Group>
-                                    <Label text="References" rotate="-90"></Label>
+                                    <Label text="引用" rotate="-90"></Label>
                                 </Group>
                             </graphic>
                             <padding>
@@ -148,10 +147,10 @@
                         <ToggleButton toggleGroup="$leftToggleGroup"
                                       styleClass="corner-toggle-button,corner-bottom-half"
                                       onAction="#toggleRecentView"
-                                      prefWidth="20">
+                                      prefHeight="80" prefWidth="20">
                             <graphic>
                                 <Group>
-                                    <Label text="Recent" rotate="-90"></Label>
+                                    <Label text="最近" rotate="-90"></Label>
                                 </Group>
                             </graphic>
                             <padding>
@@ -185,7 +184,7 @@
                                                         </Label>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="Change Workdir"/>
+                                                        <Tooltip text="更改工作目录"/>
                                                     </tooltip>
                                                 </Button>
                                                 <Button minWidth="-Infinity" mnemonicParsing="false" onAction="#goUp"
@@ -198,7 +197,7 @@
                                                         </Label>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="Go Up"/>
+                                                        <Tooltip text="向上"/>
                                                     </tooltip>
                                                 </Button>
                                                 <Button minWidth="-Infinity" mnemonicParsing="false"
@@ -211,7 +210,7 @@
                                                         </Label>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="Refresh"/>
+                                                        <Tooltip text="刷新"/>
                                                     </tooltip>
                                                 </Button>
                                                 <MenuButton fx:id="leftButton" minWidth="-Infinity"
@@ -221,14 +220,14 @@
                                                     </graphic>
                                                     <items>
                                                         <MenuItem mnemonicParsing="false" onAction="#bugReport"
-                                                                  text="Bug Report"/>
+                                                                  text="错误报告"/>
                                                         <MenuItem mnemonicParsing="false" onAction="#openCommunityForum"
-                                                                  text="Community Forum"/>
+                                                                  text="社区论坛"/>
                                                         <MenuItem mnemonicParsing="false" onAction="#openGitterChat"
-                                                                  text="Gitter Chat"/>
+                                                                  text="Gitter聊天"/>
                                                         <SeparatorMenuItem/>
                                                         <MenuItem mnemonicParsing="false" onAction="#openGithubPage"
-                                                                  text="Github Page"/>
+                                                                  text="Github页面"/>
                                                         <MenuItem fx:id="afxVersionItem" disable="true"
                                                                   mnemonicParsing="false" text=""/>
                                                     </items>
@@ -250,60 +249,55 @@
                                                                 <ContextMenu>
                                                                     <items>
                                                                         <MenuItem fx:id="openFileTreeItem"
-                                                                                  mnemonicParsing="false" text="Open"/>
+                                                                                  mnemonicParsing="false" text="打开"/>
                                                                         <MenuItem onAction="#refreshFileView"
-                                                                                  mnemonicParsing="false" text="Refresh"/>
+                                                                                  mnemonicParsing="false" text="刷新"/>
                                                                         <MenuItem id="openFolderTreeItem"
                                                                                   fx:id="browseFolderTreeItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Browse"/>
+                                                                                  text="浏览"/>
                                                                         <SeparatorMenuItem fx:id="renameSeparator"/>
                                                                         <MenuItem fx:id="renameFile"
                                                                                   mnemonicParsing="false"
-                                                                                  onAction="#renameFile" text="Rename"/>
-                                                                        <Menu fx:id="newMenu" text="New">
+                                                                                  onAction="#renameFile" text="重命名"/>
+                                                                        <Menu fx:id="newMenu" text="新建">
                                                                             <items>
                                                                                 <MenuItem fx:id="newFile"
                                                                                           mnemonicParsing="false"
                                                                                           onAction="#createFile"
-                                                                                          text="New File"/>
+                                                                                          text="新文件"/>
                                                                                 <MenuItem fx:id="newFolder"
                                                                                           mnemonicParsing="false"
                                                                                           onAction="#createFolder"
-                                                                                          text="New Folder"/>
+                                                                                          text="新文件夹"/>
                                                                             </items>
                                                                         </Menu>
-                                                                        <Menu fx:id="menuTemplates" text="New Template"
+                                                                        <Menu fx:id="menuTemplates" text="新模版"
                                                                               mnemonicParsing="false">
                                                                         </Menu>
                                                                         <SeparatorMenuItem/>
                                                                         <MenuItem mnemonicParsing="false"
                                                                                   onAction="#copyPath"
-                                                                                  text="Copy Path"/>
+                                                                                  text="复制路径"/>
                                                                         <MenuItem fx:id="copyTreeItem"
-                                                                                  mnemonicParsing="false" text="Copy"/>
+                                                                                  mnemonicParsing="false" text="复制"/>
                                                                         <SeparatorMenuItem fx:id="addToFavSeparator"/>
                                                                         <MenuItem fx:id="addToFavoriteDir"
                                                                                   onAction="#addToFavoriteDir"
-                                                                                  text="Add to Fav. Dirs"/>
+                                                                                  text="添加到收藏夹目录"/>
                                                                         <Menu fx:id="favoriteDirMenu"
-                                                                              text="Favorite Dirs"/>
+                                                                              text="收藏夹目录"/>
                                                                         <SeparatorMenuItem/>
                                                                         <CheckMenuItem fx:id="showHiddenFiles"
                                                                                        onAction="#showHiddenFiles"
-                                                                                       text="Show hidden files"/>
+                                                                                       text="显示隐藏文件"/>
                                                                         <SeparatorMenuItem/>
                                                                         <MenuItem onAction="#openTerminalItem"
-                                                                                  text="Open in Terminal"/>
+                                                                                  text="在终端中打开"/>
                                                                         <SeparatorMenuItem/>
                                                                         <MenuItem fx:id="deletePathItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Delete"/>
-                                                                        <SeparatorMenuItem/>
-                                                                        <MenuItem
-                                                                                  onAction="#showFileHistory"
-                                                                                  mnemonicParsing="false"
-                                                                                  text="Show History"/>
+                                                                                  text="删除"/>
                                                                     </items>
                                                                 </ContextMenu>
                                                             </contextMenu>
@@ -319,16 +313,16 @@
                                                                     <items>
                                                                         <MenuItem fx:id="openFileListItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Open"/>
+                                                                                  text="打开"/>
                                                                         <MenuItem fx:id="browseFolderListItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Browse"/>
+                                                                                  text="流量"/>
                                                                         <MenuItem fx:id="copyPathListItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Copy Path"/>
+                                                                                  text="复制路径"/>
                                                                         <MenuItem fx:id="copyListItem"
                                                                                   mnemonicParsing="false"
-                                                                                  text="Copy"/>
+                                                                                  text="复制"/>
                                                                     </items>
                                                                 </ContextMenu>
                                                             </contextMenu>
@@ -412,7 +406,7 @@
                                                     </HBox.margin>
                                                 </Pane>
                                                 <Label fx:id="browserPro" alignment="TOP_RIGHT" minWidth="-Infinity"
-                                                       styleClass="output-button,browser" text="Browser"
+                                                       styleClass="output-button,browser" text="浏览器"
                                                        textAlignment="LEFT">
                                                     <graphic>
                                                         <FontIcon iconLiteral="fa-flash"/>
@@ -453,7 +447,7 @@
                                                         <FontIcon iconLiteral="fa-plus"/>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="New Terminal"/>
+                                                        <Tooltip text="新建终端"/>
                                                     </tooltip>
                                                 </Button>
                                                 <Button fx:id="closeTerminalButton" focusTraversable="false">
@@ -461,7 +455,7 @@
                                                         <FontIcon iconLiteral="fa-close"/>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="Close Terminal"/>
+                                                        <Tooltip text="关闭终端"/>
                                                     </tooltip>
                                                 </Button>
                                                 <Button fx:id="recordTerminalButton" focusTraversable="false">
@@ -469,7 +463,7 @@
                                                         <FontIcon iconLiteral="fa-play-circle"/>
                                                     </graphic>
                                                     <tooltip>
-                                                        <Tooltip text="Record"/>
+                                                        <Tooltip text="记录"/>
                                                     </tooltip>
                                                 </Button>
                                             </children>

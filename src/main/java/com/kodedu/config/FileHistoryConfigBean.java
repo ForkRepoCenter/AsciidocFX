@@ -46,8 +46,8 @@ public class FileHistoryConfigBean extends ConfigurationBase {
     private final ThreadService threadService;
     private final TabService tabService;
 
-    private final Button saveButton = new Button("Save");
-    private final Button loadButton = new Button("Load");
+    private final Button saveButton = new Button("保存");
+    private final Button loadButton = new Button("加载");
     private final Label infoLabel = new Label();
 
     @Autowired
@@ -61,7 +61,7 @@ public class FileHistoryConfigBean extends ConfigurationBase {
 
     @Override
     public String formName() {
-        return "File History Settings";
+        return "文件历史记录设置";
     }
 
     @Override
@@ -81,7 +81,7 @@ public class FileHistoryConfigBean extends ConfigurationBase {
 
         DefaultFactoryProvider fileHistoryFactoryProvider = new DefaultFactoryProvider();
 
-        fileHistoryFactoryProvider.addFactory(new NamedFieldHandler("globalFileHistoryRootDir"), new FolderChooserFactory("Change root file history directory", p -> {}));
+        fileHistoryFactoryProvider.addFactory(new NamedFieldHandler("globalFileHistoryRootDir"), new FolderChooserFactory("更改根文件历史目录", p -> {}));
 
         FileChooserEditableFactory fileChooserEditableFactory = new FileChooserEditableFactory();
         editorConfigForm.setEditorFactoryProvider(fileHistoryFactoryProvider);
@@ -110,7 +110,7 @@ public class FileHistoryConfigBean extends ConfigurationBase {
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        fadeOut(infoLabel, "Loading...");
+        fadeOut(infoLabel, "加载中...");
 
         createConfigFileIfNotExist(configPath);
 
@@ -135,7 +135,7 @@ public class FileHistoryConfigBean extends ConfigurationBase {
             this.setSaveUnderCurrentDir(saveUnderCurrentDir);
             this.setSaveUnderGlobalDir(saveUnderGlobalDir);
 
-            fadeOut(infoLabel, "Loaded...");
+            fadeOut(infoLabel, "已加载...");
 
         });
     }
@@ -143,9 +143,9 @@ public class FileHistoryConfigBean extends ConfigurationBase {
     @Override
     public void save(ActionEvent... actionEvent) {
 
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     @Override

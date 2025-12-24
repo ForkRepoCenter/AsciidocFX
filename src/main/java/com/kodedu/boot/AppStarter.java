@@ -239,14 +239,14 @@ public class AppStarter extends Application {
 
         Stage asciidocTableStage = threadService.supply(Stage::new);
         threadService.runActionLater(asciidocTableStage::setScene, new Scene(asciidocTableAnchor));
-        asciidocTableStage.setTitle("Table Generator");
+        asciidocTableStage.setTitle("表格生成器");
         asciidocTableStage.initModality(Modality.WINDOW_MODAL);
         asciidocTableStage.initOwner(scene.getWindow());
         asciidocTableStage.getIcons().add(logoImage);
 
         Stage markdownTableStage = threadService.supply(Stage::new);
         threadService.runActionLater(markdownTableStage::setScene, new Scene(markdownTableAnchor));
-        markdownTableStage.setTitle("Table Generator");
+        markdownTableStage.setTitle("表格生成器");
         markdownTableStage.initModality(Modality.WINDOW_MODAL);
         markdownTableStage.initOwner(scene.getWindow());
         markdownTableStage.getIcons().add(logoImage);

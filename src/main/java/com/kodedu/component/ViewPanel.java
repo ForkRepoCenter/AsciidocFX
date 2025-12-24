@@ -197,10 +197,10 @@ public abstract class ViewPanel extends AnchorPane {
 
     private void initializePreviewContextMenus() {
 
-        CheckMenuItem stopRenderingItem = new CheckMenuItem("Stop rendering");
-        CheckMenuItem stopScrollingItem = new CheckMenuItem("Stop scrolling");
-        CheckMenuItem stopJumpingItem = new CheckMenuItem("Stop jumping");
-        detachPreviewItem = new CheckMenuItem("Detach preview");
+        CheckMenuItem stopRenderingItem = new CheckMenuItem("停止渲染");
+        CheckMenuItem stopScrollingItem = new CheckMenuItem("停止滚动");
+        CheckMenuItem stopJumpingItem = new CheckMenuItem("停止跳跃");
+        detachPreviewItem = new CheckMenuItem("分离预览");
 
 
         stopRenderingItem.selectedProperty().addListener((observable, oldValue, newValue) -> {

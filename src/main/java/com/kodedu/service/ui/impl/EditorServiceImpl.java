@@ -51,87 +51,87 @@ public class EditorServiceImpl implements EditorService {
 
         final Label saveLabel = LabelBuilt.icon(FontAwesome.SAVE)
                 .clazz("top-label")
-                .tip("Save").click(controller::saveDoc).build();
+                .tip("保存").click(controller::saveDoc).build();
 
         final Label newLabel = LabelBuilt.icon(FontAwesome.FILE_TEXT_O)
-                .clazz("top-label").tip("New File").click(controller::newDoc).build();
+                .clazz("top-label").tip("新文件").click(controller::newDoc).build();
 
         final Label openLabel = LabelBuilt.icon(FontAwesome.FOLDER_OPEN_O)
-                .clazz("top-label").tip("Open File").click(controller::openDoc).build();
+                .clazz("top-label").tip("打开文件").click(controller::openDoc).build();
 
         final Label boldLabel = LabelBuilt.icon(FontAwesome.BOLD)
-                .clazz("top-label").tip("Bold").click(event -> {
+                .clazz("top-label").tip("加粗").click(event -> {
                     shortcutProvider.getProvider().addBold();
                 }).build();
 
         final Label italicLabel = LabelBuilt.icon(FontAwesome.ITALIC)
-                .clazz("top-label").tip("Italic").click(event -> {
+                .clazz("top-label").tip("斜体").click(event -> {
                     shortcutProvider.getProvider().addItalic();
                 }).build();
 
         final Label headerLabel = LabelBuilt.icon(FontAwesome.HEADER)
-                .clazz("top-label").tip("Headings").click(event -> {
+                .clazz("top-label").tip("标题").click(event -> {
                     shortcutProvider.getProvider().addHeading();
                 }).build();
 
         final Label codeLabel = LabelBuilt.icon(FontAwesome.CODE)
-                .clazz("top-label").tip("Code Snippet").click(event -> {
+                .clazz("top-label").tip("代码段").click(event -> {
                     shortcutProvider.getProvider().addCode("");
                 }).build();
 
         final Label ulListLabel = LabelBuilt.icon(FontAwesome.LIST_UL)
-                .clazz("top-label").tip("Bulleted List").click(event -> {
+                .clazz("top-label").tip("符号列表").click(event -> {
                     shortcutProvider.getProvider().addUnorderedList();
                 }).build();
 
         final Label olListLabel = LabelBuilt.icon(FontAwesome.LIST_ALT)
-                .clazz("top-label").tip("Numbered List").click(event -> {
+                .clazz("top-label").tip("编号列表").click(event -> {
                     shortcutProvider.getProvider().addOrderedList();
                 }).build();
 
         final Label tableLabel = LabelBuilt.icon(FontAwesome.TABLE)
-                .clazz("top-label").tip("Table").click(event -> {
+                .clazz("top-label").tip("表格").click(event -> {
                     shortcutProvider.getProvider().addTable();
                     ;
                 }).build();
 
         final Label imageLabel = LabelBuilt.icon(FontAwesome.IMAGE)
-                .clazz("top-label").tip("Image").click(event -> {
+                .clazz("top-label").tip("图像").click(event -> {
                     shortcutProvider.getProvider().addImage();
                 }).build();
 
         final Label subscriptLabel = LabelBuilt.icon(FontAwesome.SUBSCRIPT)
-                .clazz("top-label").tip("Subscript").click(event -> {
+                .clazz("top-label").tip("下标").click(event -> {
                     shortcutProvider.getProvider().addSubscript();
                 }).build();
 
         final Label superScriptLabel = LabelBuilt.icon(FontAwesome.SUPERSCRIPT)
-                .clazz("top-label").tip("Superscript").click(event -> {
+                .clazz("top-label").tip("上标").click(event -> {
                     shortcutProvider.getProvider().addSuperscript();
                 }).build();
 
         final Label underlineLabel = LabelBuilt.icon(FontAwesome.UNDERLINE)
-                .clazz("top-label").tip("Underline").click(event -> {
+                .clazz("top-label").tip("下划线").click(event -> {
                     shortcutProvider.getProvider().addUnderline();
                 }).build();
 
         final Label hyperlinkLabel = LabelBuilt.icon(FontAwesome.LINK)
-                .clazz("top-label").tip("Hyperlink").click(event -> {
+                .clazz("top-label").tip("超链接").click(event -> {
                     shortcutProvider.getProvider().addHyperlink();
                 }).build();
 
         final Label strikethroughLabel = LabelBuilt.icon(FontAwesome.STRIKETHROUGH)
-                .clazz("top-label").tip("Strikethrough").click(event -> {
+                .clazz("top-label").tip("删除线").click(event -> {
                     shortcutProvider.getProvider().addStrike();
                 }).build();
 
         final Label quoteLabel = LabelBuilt.icon(FontAwesome.QUOTE_LEFT)
-                .clazz("top-label").tip("Blockquote").click(event -> {
+                .clazz("top-label").tip("块引用").click(event -> {
                     shortcutProvider.getProvider().addQuote();
                 }).build();
 
         final Label openMenuLabel = LabelBuilt.icon(FontAwesome.CHEVRON_CIRCLE_DOWN)
-                .clazz("top-label").tip("More...").build();
+                .clazz("top-label").tip("更多...").build();
 
         Pane placeholderPane = new Pane();
         placeholderPane.maxWidth(Integer.MAX_VALUE);
@@ -157,7 +157,7 @@ public class EditorServiceImpl implements EditorService {
 
         ObservableList<DocumentMode> modeList = controller.getModeList();
 
-        MenuButton menuButton = new MenuButton("Doctype");
+        MenuButton menuButton = new MenuButton("文档类型");
         menuButton.setMinWidth(70);
 
         Map<String, List<String>> modulus = modeList.stream()
@@ -226,7 +226,7 @@ public class EditorServiceImpl implements EditorService {
 
     private List<Node> createMoreMenuButtons() {
 
-        MenuButton admonitionButton = new MenuButton("Admonitions");
+        MenuButton admonitionButton = new MenuButton("警告");
         admonitionButton.setFocusTraversable(false);
         admonitionButton.getItems().add(new MenuItem("NOTE"));
         admonitionButton.getItems().add(new MenuItem("TIP"));
@@ -240,22 +240,22 @@ public class EditorServiceImpl implements EditorService {
             });
         });
 
-        MenuButton blocks = new MenuButton("Blocks");
+        MenuButton blocks = new MenuButton("块");
         blocks.setFocusTraversable(false);
-        blocks.getItems().add(MenuItemBuilt.item("Sidebar").click(event -> {
+        blocks.getItems().add(MenuItemBuilt.item("侧边栏").click(event -> {
             shortcutProvider.getProvider().addSidebarBlock();
         }));
-        blocks.getItems().add(MenuItemBuilt.item("Example").click(event -> {
+        blocks.getItems().add(MenuItemBuilt.item("示例").click(event -> {
             shortcutProvider.getProvider().addExampleBlock();
         }));
-        blocks.getItems().add(MenuItemBuilt.item("Passthrough").click(event -> {
+        blocks.getItems().add(MenuItemBuilt.item("直通").click(event -> {
             shortcutProvider.getProvider().addPassthroughBlock();
         }));
-        blocks.getItems().add(MenuItemBuilt.item("Blockquote").click(event -> {
+        blocks.getItems().add(MenuItemBuilt.item("块引用").click(event -> {
             shortcutProvider.getProvider().addQuote();
         }));
 
-        final MenuButton documentHelpers = new MenuButton("Document helpers");
+        final MenuButton documentHelpers = new MenuButton("文档助手");
         documentHelpers.setFocusTraversable(false);
         documentHelpers.getItems().add(MenuItemBuilt.item("Book header").click(event -> {
             shortcutProvider.getProvider().addBookHeader();
@@ -297,7 +297,7 @@ public class EditorServiceImpl implements EditorService {
             shortcutProvider.getProvider().addIndex();
         }));
 
-        final MenuButton extensions = new MenuButton("Extensions");
+        final MenuButton extensions = new MenuButton("扩展");
         extensions.setFocusTraversable(false);
         extensions.getItems().add(MenuItemBuilt.item("Mathjax (block)").click(event -> {
             shortcutProvider.getProvider().addMathBlock();
@@ -312,7 +312,7 @@ public class EditorServiceImpl implements EditorService {
             shortcutProvider.getProvider().addDitaaBlock();
         }));
 
-        extensions.getItems().add(MenuItemBuilt.item("Filesystem Tree").click(event -> {
+        extensions.getItems().add(MenuItemBuilt.item("文件系统树").click(event -> {
             shortcutProvider.getProvider().addTreeBlock();
         }));
 
@@ -320,38 +320,38 @@ public class EditorServiceImpl implements EditorService {
             shortcutProvider.getProvider().addMermaidBlock();
         }));
 
-        final MenuButton chartMenu = new MenuButton("Charts");
+        final MenuButton chartMenu = new MenuButton("图表");
         chartMenu.setFocusTraversable(false);
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Pie").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("饼图").click(event -> {
             shortcutProvider.getProvider().addPieChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Bar").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("条形图").click(event -> {
             shortcutProvider.getProvider().addBarChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Line").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("线图").click(event -> {
             shortcutProvider.getProvider().addLineChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Area").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("区域图").click(event -> {
             shortcutProvider.getProvider().addAreaChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Scatter").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("分散图").click(event -> {
             shortcutProvider.getProvider().addScatterChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Bubble").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("气泡图").click(event -> {
             shortcutProvider.getProvider().addBubbleChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Stacked Area").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("堆叠的区域").click(event -> {
             shortcutProvider.getProvider().addStackedAreaChart();
         }));
 
-        chartMenu.getItems().add(MenuItemBuilt.item("Stacked Bar").click(event -> {
+        chartMenu.getItems().add(MenuItemBuilt.item("堆积条形图").click(event -> {
             shortcutProvider.getProvider().addStackedBarChart();
         }));
 

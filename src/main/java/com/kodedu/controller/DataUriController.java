@@ -70,7 +70,7 @@ public class DataUriController {
             bytes = restTemplate.getForObject(imageUri, byte[].class);
         } else {
             final Path path = directoryService.findPathInWorkdirOrLookup(IOHelper.getPath(imageUri));
-            Objects.requireNonNull(path, "No such file or directory: " + imageUri);
+            Objects.requireNonNull(path, "没有这样的文件或目录: " + imageUri);
             bytes = IOHelper.readFile(path, byte[].class);
         }
 

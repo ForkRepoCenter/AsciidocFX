@@ -313,8 +313,8 @@ public class TerminalConfigBean extends ConfigurationBase {
     private final ThreadService threadService;
     private final TabService tabService;
 
-    private final Button saveButton = new Button("Save");
-    private final Button loadButton = new Button("Load");
+    private final Button saveButton = new Button("保存");
+    private final Button loadButton = new Button("加载");
     private final Label infoLabel = new Label();
 
     @Autowired
@@ -328,7 +328,7 @@ public class TerminalConfigBean extends ConfigurationBase {
 
     @Override
     public String formName() {
-        return "Terminal Settings";
+        return "终端设置";
     }
 
     @Override
@@ -389,7 +389,7 @@ public class TerminalConfigBean extends ConfigurationBase {
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        fadeOut(infoLabel, "Loading...");
+        fadeOut(infoLabel, "加载中...");
 
         createConfigFileIfNotExist(configPath);
 
@@ -446,7 +446,7 @@ public class TerminalConfigBean extends ConfigurationBase {
                 this.setScrollWhellMoveMultiplier(jsonObject.getJsonNumber("scrollWhellMoveMultiplier").doubleValue());
             }
 
-            fadeOut(infoLabel, "Loaded...");
+            fadeOut(infoLabel, "已加载...");
 
         });
     }
@@ -454,9 +454,9 @@ public class TerminalConfigBean extends ConfigurationBase {
     @Override
     public void save(ActionEvent... actionEvent) {
 
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     @Override

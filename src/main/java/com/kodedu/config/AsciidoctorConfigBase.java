@@ -67,8 +67,8 @@ public abstract class AsciidoctorConfigBase<T extends LoadedAttributes> extends 
 
     private List<String> propertyList = Arrays.asList("attributes");
 
-    private final Button saveButton = new Button("Save");
-    private final Button loadButton = new Button("Load");
+    private final Button saveButton = new Button("保存");
+    private final Button loadButton = new Button("加载");
     private final Label infoLabel = new Label();
 
     public AsciidoctorConfigBase(ApplicationController controller, ThreadService threadService) {
@@ -193,7 +193,7 @@ public abstract class AsciidoctorConfigBase<T extends LoadedAttributes> extends 
     @Override
     public void load(Path configPath, ActionEvent... actionEvent) {
 
-        infoLabel.setText("Loading...");
+        infoLabel.setText("加载中...");
 
         Reader fileReader = IOHelper.fileReader(configPath);
         JsonReader jsonReader = Json.createReader(fileReader);
@@ -311,9 +311,9 @@ public abstract class AsciidoctorConfigBase<T extends LoadedAttributes> extends 
 
 	@Override
     public void save(ActionEvent... actionEvent) {
-        infoLabel.setText("Saving...");
+        infoLabel.setText("保存中...");
         saveJson(getJSON());
-        fadeOut(infoLabel, "Saved...");
+        fadeOut(infoLabel, "已保存...");
     }
 
     public Attributes getAsciiDocAttributes(String asciidoc) {

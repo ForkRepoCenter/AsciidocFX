@@ -22,7 +22,7 @@ public class PreviewConfigBean extends AsciidoctorConfigBase<NoAttributes> {
 
     @Override
     public String formName() {
-        return "Preview Settings";
+        return "预览设置";
     }
 
     @Autowired

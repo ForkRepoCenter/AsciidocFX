@@ -18,7 +18,7 @@ public class FileChooserFactory extends ChooserFactory {
     }
 
     public FileChooserFactory(Consumer<Path> browseConsumer) {
-        super("Enter local path or URL", browseConsumer);
+        super("输入本地路径或URL", browseConsumer);
     }
 
     @Override

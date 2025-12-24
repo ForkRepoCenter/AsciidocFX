@@ -67,14 +67,14 @@ public class FileChooserEditableFactory implements Callback<Void, FXFormNode> {
 
     @Override
     public FXFormNode call(Void param) {
-        String promptText = "Enter local path or URL";
+        String promptText = "输入本地路径或URL";
         textField.setPromptText(promptText);
         tooltip.setText(promptText);
         textField.setDisable(false);
 
-        selectButton.setText("Change");
-        editButton.setText("Edit");
-        browseButton.setText("Browse");
+        selectButton.setText("更改");
+        editButton.setText("编辑");
+        browseButton.setText("浏览");
 
         textField.setOnMouseEntered(event -> {
             Optional.of(textField).filter(e -> !e.isFocused())

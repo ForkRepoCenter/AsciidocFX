@@ -16,7 +16,7 @@ public class Epub3ConfigBean extends AsciidoctorConfigBase<NoAttributes> {
 
     @Override
     public String formName() {
-        return "Epub3 Settings";
+        return "Epub3 设置";
     }
 
     @Autowired

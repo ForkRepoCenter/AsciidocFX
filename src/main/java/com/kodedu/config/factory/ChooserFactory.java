@@ -42,8 +42,8 @@ public abstract class ChooserFactory implements Callback<Void, FXFormNode> {
         tooltip.setText(promptText);
         textField.setDisable(false);
 
-        changeButton.setText("Change");
-        browseButton.setText("Browse");
+        changeButton.setText("更改");
+        browseButton.setText("浏览");
 
         textField.textProperty().bindBidirectional(property);
 

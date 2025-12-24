@@ -37,7 +37,7 @@ public class StoredConfigBean extends ConfigurationBase {
 
     @Override
     public String formName() {
-        return "Stored Settings";
+        return "存储设置";
     }
 
     @Autowired

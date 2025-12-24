@@ -22,7 +22,7 @@ public class HtmlConfigBean extends AsciidoctorConfigBase<NoAttributes> {
 
     @Override
     public String formName() {
-        return "HTML Config";
+        return "HTML 配置";
     }
 
     @Autowired

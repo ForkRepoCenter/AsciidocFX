@@ -18,7 +18,7 @@ public class RevealjsConfigBean extends AsciidoctorConfigBase<NoAttributes> {
 
     @Override
     public String formName() {
-        return "Revealjs Settings";
+        return "Revealjs设置";
     }
 
     @Autowired

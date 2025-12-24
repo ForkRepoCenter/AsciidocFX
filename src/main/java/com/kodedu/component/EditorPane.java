@@ -532,41 +532,41 @@ public class EditorPane extends AnchorPane {
         webView.setContextMenuEnabled(false);
         contextMenu = new ContextMenu();
 
-        MenuItem cut = MenuItemBuilt.item("Cut").click(e -> {
+        MenuItem cut = MenuItemBuilt.item("剪切").click(e -> {
             clipboardHelper.cutCopy(editorSelection());
             execCommand("cut");
         });
-        MenuItem copy = MenuItemBuilt.item("Copy").click(e -> {
+        MenuItem copy = MenuItemBuilt.item("复制").click(e -> {
             clipboardHelper.cutCopy(editorSelection());
         });
-        MenuItem pasteConverted = MenuItemBuilt.item("Paste converted").click(e -> {
+        MenuItem pasteConverted = MenuItemBuilt.item("粘贴已转换").click(e -> {
             clipboardHelper.paste(this);
         });
-        MenuItem paste = MenuItemBuilt.item("Paste").click(e -> {
+        MenuItem paste = MenuItemBuilt.item("粘贴").click(e -> {
             clipboardHelper.pasteRaw(this);
         });
-        MenuItem indexSelection = MenuItemBuilt.item("Index selection").click(e -> {
+        MenuItem indexSelection = MenuItemBuilt.item("索引选择").click(e -> {
             shortcutProvider.getProvider().addIndexSelection();
         });
-        MenuItem includeAsSubDocument = MenuItemBuilt.item("Include selection").click(e -> {
+        MenuItem includeAsSubDocument = MenuItemBuilt.item("包括选择").click(e -> {
             shortcutProvider.getProvider().includeAsSubdocument();
         });
-        MenuItem replacements = MenuItemBuilt.item("Apply Replacements").click(this::replaceSubs);
+        MenuItem replacements = MenuItemBuilt.item("应用替换").click(this::replaceSubs);
 
-        final Menu editorLanguage = new Menu("Editor language");
-        final Menu defaultLanguage = new Menu("Default language");
+        final Menu editorLanguage = new Menu("编辑器语言");
+        final Menu defaultLanguage = new Menu("默认语言");
 
         ToggleGroup editorLanguageGroup = new ToggleGroup();
         ToggleGroup defaultLanguageGroup = new ToggleGroup();
 
-        final RadioMenuItem disableSpeller = CheckItemBuilt.check("Disable spell check", false)
+        final RadioMenuItem disableSpeller = CheckItemBuilt.check("禁用拼写检查", false)
                 .bindBi(spellcheckConfigBean.disableSpellCheckProperty())
                 .click(e -> {
                     checkSpelling();
                 })
                 .build();
 
-        Menu languageMenu = new Menu("Spell Checker");
+        Menu languageMenu = new Menu("拼写检查");
         languageMenu.getItems().addAll(editorLanguage, defaultLanguage, disableSpeller);
 
         this.contextMenuRequested = event -> {
@@ -587,7 +587,7 @@ public class EditorPane extends AnchorPane {
 
             if (editorLanguage.getItems().isEmpty()) {
 
-                editorLanguage.getItems().add(CheckItemBuilt.check("Use default language", true)
+                editorLanguage.getItems().add(CheckItemBuilt.check("使用默认语言", true)
                         .click(e -> {
                             setSpellLanguage(null);
                             checkSpelling();

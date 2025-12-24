@@ -61,7 +61,7 @@ public class DirectoryServiceImpl implements DirectoryService {
         this.pathMapper = pathMapper;
 
         pathSaveSupplier = () -> {
-            final FileChooser chooser = newFileChooser("Save Document");
+            final FileChooser chooser = newFileChooser("保存文档");
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Asciidoc", "*.adoc", "*.asciidoc", "*.asc", "*.ad", "*.txt", "*.*"));
             chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Markdown", "*.md", "*.markdown", "*.txt", "*.*"));
             File file = chooser.showSaveDialog(null);
@@ -132,7 +132,7 @@ public class DirectoryServiceImpl implements DirectoryService {
             return completableFuture.join();
         }
 
-        final DirectoryChooser directoryChooser = newDirectoryChooser("Select working directory");
+        final DirectoryChooser directoryChooser = newDirectoryChooser("选择工作目录");
         final File file = directoryChooser.showDialog(null);
 
         workingDirectory = Optional.ofNullable(file.toPath());
@@ -178,7 +178,7 @@ public class DirectoryServiceImpl implements DirectoryService {
 
     @Override
     public void askWorkingDir() {
-        DirectoryChooser directoryChooser = this.newDirectoryChooser("Select Working Directory");
+        DirectoryChooser directoryChooser = this.newDirectoryChooser("选择工作目录");
         File selectedDir = directoryChooser.showDialog(null);
         if (Objects.nonNull(selectedDir)) {
             changeWorkigDir(selectedDir.toPath());
@@ -278,7 +278,7 @@ public class DirectoryServiceImpl implements DirectoryService {
             return currentTabPathDir.resolve(extensionFilter.getExtensions().get(0).replace("*", tabText));
         }
 
-        final FileChooser fileChooser = this.newFileChooser(String.format("Save %s file", extensionFilter.getDescription()));
+        final FileChooser fileChooser = this.newFileChooser(String.format("保存 %s 文件", extensionFilter.getDescription()));
         fileChooser.getExtensionFilters().addAll(extensionFilter);
         File file = fileChooser.showSaveDialog(null);
 

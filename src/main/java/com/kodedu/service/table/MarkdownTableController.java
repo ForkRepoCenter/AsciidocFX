@@ -37,7 +37,7 @@ public class MarkdownTableController implements Initializable {
     public void createBasicTable(String row, String column) {
         rows.textProperty().setValue(row);
         columns.textProperty().setValue(column);
-        initialValue.setText("cell");
+        initialValue.setText("单元格");
         tablePopupApply(null);
     }
 

@@ -182,7 +182,7 @@ public class FileBrowseServiceImpl implements FileBrowseService {
                             TreeItem<Item> childItem = new PathItem<Item>(new Item(p), awesomeService.getIcon(p));
                             if (Files.isDirectory(p)) {
                                 if (!IOHelper.isEmptyDir(p)) {
-                                    childItem.getChildren().add(new PathItem<Item>(new Item(null, "Loading..")));
+                                    childItem.getChildren().add(new PathItem<Item>(new Item(null, "加载中...")));
                                 }
                                 childItem.setExpanded(expandedPaths.getOrDefault(p, false));
                                 if (childItem.isExpanded()) {
@@ -280,7 +280,7 @@ public class FileBrowseServiceImpl implements FileBrowseService {
         }
         threadService.runActionLater(() -> {
             rootItem = new PathItem<Item>(new Item(browsedPath, String.format("%s", Optional.of(browsedPath).map(Path::getFileName).orElse(browsedPath))), awesomeService.getIcon(browsedPath));
-            rootItem.getChildren().add(new PathItem<Item>(new Item(null, "Loading..")));
+            rootItem.getChildren().add(new PathItem<Item>(new Item(null, "加载中...")));
 
             treeView.setRoot(rootItem);
             rootItem.setExpanded(true);

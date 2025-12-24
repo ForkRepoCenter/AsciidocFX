@@ -27,8 +27,8 @@ import java.util.List;
 public class TableFactory implements Callback<Void, FXFormNode> {
 
     private final TableView tableView;
-    private final Button addButton = new Button("Add");
-    private final Button removeButton = new Button("Remove");
+    private final Button addButton = new Button("添加");
+    private final Button removeButton = new Button("移除");
 
     public TableFactory(TableView tableView) {
         this.tableView = tableView;

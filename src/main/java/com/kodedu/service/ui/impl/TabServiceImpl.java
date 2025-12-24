@@ -194,7 +194,7 @@ public class TabServiceImpl implements TabService {
 
         tab.setContent(anchorPane);
 
-        tab.setTabText("new *");
+        tab.setTabText("新 *");
         TabPane tabPane = controller.getTabPane();
         tabPane.getTabs().add(tab);
         tab.select();
@@ -253,15 +253,15 @@ public class TabServiceImpl implements TabService {
             tab.close();
         });
 
-        MenuItem closeMenu = new MenuItem("Close");
+        MenuItem closeMenu = new MenuItem("关闭");
         closeMenu.setOnAction(actionEvent -> {
             tab.close();
         });
 
-        MenuItem closeAll = new MenuItem("Close All");
+        MenuItem closeAll = new MenuItem("关闭所有");
         closeAll.setOnAction(controller::closeAllTabs);
 
-        MenuItem closeOthers = new MenuItem("Close Others");
+        MenuItem closeOthers = new MenuItem("关闭其它");
         closeOthers.setOnAction(event -> {
 
             ObservableList<Tab> blackList = FXCollections.observableArrayList();
@@ -288,7 +288,7 @@ public class TabServiceImpl implements TabService {
             });
         });
 
-        MenuItem selectNextTab = new MenuItem("Select Next Tab");
+        MenuItem selectNextTab = new MenuItem("选择下一选项卡");
         selectNextTab.setOnAction(actionEvent -> {
             TabPane tabPane = tab.getTabPane();
             if (tabPane.getSelectionModel().isSelected(tabPane.getTabs().size() - 1))
@@ -297,7 +297,7 @@ public class TabServiceImpl implements TabService {
                 tabPane.getSelectionModel().selectNext();
         });
 
-        MenuItem previousTab = new MenuItem("Select Previous Tab");
+        MenuItem previousTab = new MenuItem("选择上一选项卡");
         previousTab.setOnAction(actionEvent -> {
             SingleSelectionModel<Tab> selectionModel = tab.getTabPane().getSelectionModel();
             if (selectionModel.isSelected(0))
@@ -306,7 +306,7 @@ public class TabServiceImpl implements TabService {
                 selectionModel.selectPrevious();
         });
 
-        MenuItem reopenClosedTab = new MenuItem("Reopen Closed Tab");
+        MenuItem reopenClosedTab = new MenuItem("重新打开已关闭选项卡");
         reopenClosedTab.setOnAction(actionEvent -> {
             if (closedPaths.size() > 0) {
                 int index = closedPaths.size() - 1;
@@ -317,14 +317,14 @@ public class TabServiceImpl implements TabService {
             }
         });
 
-        MenuItem browseMenu = new MenuItem("Browse");
+        MenuItem browseMenu = new MenuItem("浏览");
 
         browseMenu.setOnAction(event -> {
             current.currentPath()
                     .ifPresent(controller::browseFileOrFolder);
         });
 
-        MenuItem showHistoryMenu = MenuItemBuilt.item("Show History").click(e -> {
+        MenuItem showHistoryMenu = MenuItemBuilt.item("显示历史").click(e -> {
             Path path = tab.getPath();
             Path workingDirectory = directoryService.workingDirectory();
             threadService.runTaskLater(() -> {
@@ -334,26 +334,26 @@ public class TabServiceImpl implements TabService {
             });
         });
 
-        MenuItem copyItem = MenuItemBuilt.item("Copy").click(event -> {
+        MenuItem copyItem = MenuItemBuilt.item("复制").click(event -> {
             Optional.ofNullable(tab.getPath())
                     .ifPresent(path -> clipboardHelper.copyFiles(Arrays.asList(path)));
         });
 
-        MenuItem copyPathItem = MenuItemBuilt.item("Copy Path").click(event -> {
+        MenuItem copyPathItem = MenuItemBuilt.item("复制路径").click(event -> {
             Optional.ofNullable(tab.getPath())
                     .map(Path::toString)
                     .ifPresent(clipboardHelper::cutCopy);
         });
 
-        MenuItem newFileMenu = new MenuItem("New File");
+        MenuItem newFileMenu = new MenuItem("新建文件");
         newFileMenu.setOnAction(controller::newDoc);
 
-        MenuItem reloadMenuItem = new MenuItem("Reload");
+        MenuItem reloadMenuItem = new MenuItem("重载");
         reloadMenuItem.setOnAction(event -> {
             tab.load();
         });
 
-        MenuItem gotoWorkdir = new MenuItem("Go to Workdir");
+        MenuItem gotoWorkdir = new MenuItem("转到工作目录");
         gotoWorkdir.setOnAction(event -> {
             current.currentPath().map(Path::getParent).ifPresent(directoryService::changeWorkigDir);
         });

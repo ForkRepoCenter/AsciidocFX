@@ -19,7 +19,7 @@ public class DocbookConfigBean extends AsciidoctorConfigBase<NoAttributes> {
 
     @Override
     public String formName() {
-        return "Docbook Settings";
+        return "Docbook 设置";
     }
 
     @Autowired

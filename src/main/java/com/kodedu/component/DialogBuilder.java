@@ -20,23 +20,23 @@ public final class DialogBuilder extends TextDialog {
     }
 
     public static DialogBuilder newFileDialog() {
-        DialogBuilder dialog = new DialogBuilder("Enter new file name ", "Create new file ");
-        dialog.setToolTip("Enter new file name");
+        DialogBuilder dialog = new DialogBuilder("输入新文件名 ", "创建新文件 ");
+        dialog.setToolTip("输入新文件名");
 
         dialog.setKeyReleaseEvent(FILE_NAME_REGEX);
         return dialog;
     }
 
     public static DialogBuilder newFolderDialog() {
-        DialogBuilder dialog = new DialogBuilder("Enter new directory name ", "Create new directory ");
-        dialog.setToolTip("Enter new directory name");
+        DialogBuilder dialog = new DialogBuilder("输入新目录名 ", "创建新目录 ");
+        dialog.setToolTip("输入新目录名");
         dialog.setKeyReleaseEvent(FOLDER_NAME_REGEX);
         return dialog;
     }
 
     public static DialogBuilder newJumpLineDialog() {
-        DialogBuilder dialog = new DialogBuilder("", "Goto line/column ");
-        dialog.setToolTip("Enter line:column");
+        DialogBuilder dialog = new DialogBuilder("", "转到 行/列 ");
+        dialog.setToolTip("输入 line:column");
         dialog.setKeyReleaseEvent(LINE_COLUMN_REGEX);
         TextField editor = dialog.getEditor();
         editor.setText("0:0");

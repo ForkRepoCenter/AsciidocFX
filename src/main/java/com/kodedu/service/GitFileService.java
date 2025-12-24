@@ -159,7 +159,7 @@ public class GitFileService {
             diffEditor.updateContent(revList, revMap);
         } catch (NoHeadException noHeadException) {
             threadService.runActionLater(() -> {
-                AlertHelper.showAlert("No history found");
+                AlertHelper.showAlert("未找到历史记录");
             });
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

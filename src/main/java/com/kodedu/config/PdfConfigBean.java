@@ -36,7 +36,7 @@ public class PdfConfigBean extends AsciidoctorConfigBase<PdfConfigAttributes> {
 
 	@Override
     public String formName() {
-        return "PDF Settings";
+        return "PDF 设置";
     }
 
     @Autowired

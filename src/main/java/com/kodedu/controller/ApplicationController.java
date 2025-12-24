@@ -450,7 +450,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
     @FXML
     private void generateSampleBook(ActionEvent event) {
 
-        DirectoryChooser directoryChooser = directoryService.newDirectoryChooser("Select a New Directory for sample book");
+        DirectoryChooser directoryChooser = directoryService.newDirectoryChooser("为样本书选择新目录");
         File file = directoryChooser.showDialog(null);
         threadService.runTaskLater(() -> {
             sampleBookService.produceSampleBook(configPath, file.toPath());
@@ -687,7 +687,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 
         });
 
-        afxVersionItem.setText(String.join(" ", "Version", version));
+        afxVersionItem.setText(String.join(" ", "版本", version));
 
         ContextMenu htmlProMenu = new ContextMenu();
         htmlProMenu.getStyleClass().add("build-menu");
@@ -695,25 +695,25 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         htmlPro.setOnMouseClicked(event -> {
             htmlProMenu.show(htmlPro, event.getScreenX(), 50);
         });
-        htmlProMenu.getItems().add(MenuItemBuilt.item("Save").click(event -> {
+        htmlProMenu.getItems().add(MenuItemBuilt.item("保存").click(event -> {
             this.generateHtml();
         }));
-        htmlProMenu.getItems().add(MenuItemBuilt.item("Save as").click(event -> {
+        htmlProMenu.getItems().add(MenuItemBuilt.item("保存为").click(event -> {
             this.generateHtml(true);
         }));
-        htmlProMenu.getItems().add(MenuItemBuilt.item("Copy source").tip("Copy HTML source").click(event -> {
+        htmlProMenu.getItems().add(MenuItemBuilt.item("复制源").tip("复制HTML源").click(event -> {
             clipboardHelper.cutCopy(lastConverterResult.getRendered());
         }));
-        htmlProMenu.getItems().add(MenuItemBuilt.item("Clone source").tip("Copy HTML source (Embedded images)").click(event -> {
+        htmlProMenu.getItems().add(MenuItemBuilt.item("克隆源").tip("复制HTML源(嵌入图像)").click(event -> {
             htmlPane.call("imageToBase64Url", new Object[]{});
         }));
 
         ContextMenu pdfProMenu = new ContextMenu();
         pdfProMenu.getStyleClass().add("build-menu");
-        pdfProMenu.getItems().add(MenuItemBuilt.item("Save").click(event -> {
+        pdfProMenu.getItems().add(MenuItemBuilt.item("保存").click(event -> {
             this.generatePdf();
         }));
-        pdfProMenu.getItems().add(MenuItemBuilt.item("Save as").click(event -> {
+        pdfProMenu.getItems().add(MenuItemBuilt.item("保存为").click(event -> {
             this.generatePdf(true);
         }));
         pdfPro.setContextMenu(pdfProMenu);
@@ -724,10 +724,10 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 
         ContextMenu docbookProMenu = new ContextMenu();
         docbookProMenu.getStyleClass().add("build-menu");
-        docbookProMenu.getItems().add(MenuItemBuilt.item("Save").click(event -> {
+        docbookProMenu.getItems().add(MenuItemBuilt.item("保存").click(event -> {
             this.convertDocbook();
         }));
-        docbookProMenu.getItems().add(MenuItemBuilt.item("Save as").click(event -> {
+        docbookProMenu.getItems().add(MenuItemBuilt.item("保存为").click(event -> {
             this.convertDocbook(true);
         }));
 
@@ -741,10 +741,10 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         ebookProMenu.getStyleClass().add("build-menu");
 
         ebookProMenu.getItems().add(MenuBuilt.name("Epub")
-                .add(MenuItemBuilt.item("Save").click(event -> {
+                .add(MenuItemBuilt.item("保存").click(event -> {
                     this.convertEpub();
                 }))
-                .add(MenuItemBuilt.item("Save as").click(event -> {
+                .add(MenuItemBuilt.item("保存为").click(event -> {
                     this.convertEpub(true);
                 })).build());
 
@@ -913,7 +913,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         tabService.initializeTabChangeListener(tabPane);
         threadService.runActionLater(() -> {
             detachStage = new Stage();
-            detachStage.setTitle("AsciidocFX Preview");
+            detachStage.setTitle("AsciidocFX 预览");
             detachStage.initModality(Modality.WINDOW_MODAL);
             detachStage.setAlwaysOnTop(true);
             try (InputStream logoStream = AppStarter.class.getResourceAsStream("/logo.png")) {
@@ -1149,7 +1149,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 
                                 if (path.getRoot().equals(path)) {
                                     threadService.runActionLater(() -> {
-                                        AlertHelper.okayAlert("You can't delete fileystem root");
+                                        AlertHelper.okayAlert("您无法删除文件系统根目录");
                                     });
                                     continue;
                                 }
@@ -1245,11 +1245,11 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 
         recordTerminalButton.setOnAction(e -> {
             if (isNull(scheduledFuture)) {
-                Tooltip.install(recordTerminalButton, new Tooltip("Stop"));
+                Tooltip.install(recordTerminalButton, new Tooltip("停止"));
                 recordTerminalButton.setGraphic(new FontIcon(FontAwesome.STOP_CIRCLE_O));
                 scheduledFuture = this.recordTerminal(e);
             } else {
-                Tooltip.install(recordTerminalButton, new Tooltip("Record"));
+                Tooltip.install(recordTerminalButton, new Tooltip("记录"));
                 recordTerminalButton.setGraphic(new FontIcon(FontAwesome.PLAY_CIRCLE));
                 scheduledFuture.cancel(false);
                 scheduledFuture = null;
@@ -1739,7 +1739,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
 
     private void includeClearAllToFavoriteDir() {
         favoriteDirMenu.getItems().addAll(new SeparatorMenuItem(), MenuItemBuilt
-                .item("Clear List")
+                .item("清除列表")
                 .click(event -> {
                     ObservableList<TreeItem<Item>> selectedItems = fileSystemView.getSelectionModel().getSelectedItems();
                     if (selectedItems.size() == 1) {
@@ -1759,7 +1759,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
     private void addItemToFavoriteDir(int index, String path) {
         favoriteDirMenu.getItems().add(index, MenuItemBuilt
                 .item(path)
-                .tip("Go to favorite dir")
+                .tip("转到收藏夹目录")
                 .click(event -> {
                     directoryService.changeWorkigDir(IOHelper.getPath(path));
                 }));
@@ -1898,7 +1898,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
     public void updateStatusBox(long row, long column, long linecount, long wordcount) {
         threadService.runActionLater(() -> {
             String charset = getCurrent().currentPath().map(IOHelper::getEncoding).orElse("-");
-            statusText.setText(String.format("(Characters: %d) (Lines: %d) (%d:%d) | %s", wordcount, linecount, row, column, charset));
+            statusText.setText(String.format("(字符: %d) (行: %d) (%d:%d) | %s", wordcount, linecount, row, column, charset));
         });
     }
 
@@ -1906,7 +1906,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         TableView<MyLog> logViewer = new TableView<>();
         logViewer.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         ContextMenu logViewerContextMenu = new ContextMenu();
-        logViewerContextMenu.getItems().add(MenuItemBuilt.item("Copy").click(e -> {
+        logViewerContextMenu.getItems().add(MenuItemBuilt.item("复制").click(e -> {
             ObservableList<MyLog> rowList = (ObservableList) logViewer.getSelectionModel().getSelectedItems();
 
             StringBuilder clipboardString = new StringBuilder();
@@ -1993,11 +1993,11 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         };
 
         ToggleGroup toggleGroup = new ToggleGroup();
-        ToggleButton allToggle = ToggleButtonBuilt.item("All").tip("Show all").click(filterByLogLevel);
-        ToggleButton errorToggle = ToggleButtonBuilt.item("Error").tip("Filter by Error").click(filterByLogLevel);
-        ToggleButton warnToggle = ToggleButtonBuilt.item("Warn").tip("Filter by Warn").click(filterByLogLevel);
-        ToggleButton infoToggle = ToggleButtonBuilt.item("Info").tip("Filter by Info").click(filterByLogLevel);
-        ToggleButton debugToggle = ToggleButtonBuilt.item("Debug").tip("Filter by Debug").click(filterByLogLevel);
+        ToggleButton allToggle = ToggleButtonBuilt.item("所有").tip("显示所有").click(filterByLogLevel);
+        ToggleButton errorToggle = ToggleButtonBuilt.item("错误").tip("按错误筛选").click(filterByLogLevel);
+        ToggleButton warnToggle = ToggleButtonBuilt.item("警告").tip("按警告筛选").click(filterByLogLevel);
+        ToggleButton infoToggle = ToggleButtonBuilt.item("信息").tip("按信息筛选").click(filterByLogLevel);
+        ToggleButton debugToggle = ToggleButtonBuilt.item("调试").tip("按调试筛选").click(filterByLogLevel);
 
         toggleGroup.getToggles().addAll(
                 allToggle,
@@ -2008,19 +2008,19 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
         );
         toggleGroup.selectToggle(allToggle);
 
-        Button clearLogsButton = new Button("Clear");
+        Button clearLogsButton = new Button("清除");
         clearLogsButton.setOnAction(e -> {
             statusMessage.setText("");
             logList.clear();
         });
 
-        Button browseLogsButton = new Button("Browse");
+        Button browseLogsButton = new Button("浏览");
         browseLogsButton.setOnAction(e -> {
             openInDesktop(IOHelper.getPath(getLogPath()));
         });
 
         TextField searchLogField = new TextField();
-        searchLogField.setPromptText("Search in logs..");
+        searchLogField.setPromptText("在日志中搜索..");
         searchLogField.textProperty().addListener((observable, oldValue, newValue) -> {
 
             if (isNull(newValue)) {
@@ -2217,7 +2217,7 @@ public class ApplicationController extends TextWebSocketHandler implements Initi
             rootItem.setExpanded(true);
             Section rootSection = new Section();
             rootSection.setLevel(-1);
-            String outlineTitle = "Outline";
+            String outlineTitle = "大纲";
             rootSection.setTitle(outlineTitle);
 
             rootItem.setValue(rootSection);

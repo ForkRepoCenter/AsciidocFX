@@ -43,7 +43,7 @@ public class AsciidocTableController implements Initializable {
     public void createBasicTable(String row, String column) {
         tablePopupRows.textProperty().setValue(row);
         tablePopupColumns.textProperty().setValue(column);
-        initialValue.setText("cell");
+        initialValue.setText("单元格");
         tablePopupApply(null);
     }
 

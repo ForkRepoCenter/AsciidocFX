@@ -22,15 +22,15 @@ import static javafx.scene.control.Alert.AlertType;
  */
 public final class AlertHelper {
 
-    public static final ButtonType LOAD_FILE_SYSTEM_CHANGES = new ButtonType("Load File System Changes");
-    public static final ButtonType KEEP_MEMORY_CHANGES = new ButtonType("Keep Memory Changes");
+    public static final ButtonType LOAD_FILE_SYSTEM_CHANGES = new ButtonType("加载文件系统更改");
+    public static final ButtonType KEEP_MEMORY_CHANGES = new ButtonType("保留内存更改");
 
-    public static final ButtonType OPEN_IN_APP = new ButtonType("Open anyway");
-    public static final ButtonType OPEN_EXTERNAL = new ButtonType("Open external");
+    public static final ButtonType OPEN_IN_APP = new ButtonType("无论如何打开");
+    public static final ButtonType OPEN_EXTERNAL = new ButtonType("打开外部");
 
     static Alert buildDeleteAlertDialog(List<Path> pathsLabel) {
         Alert deleteAlert = new WindowModalAlert(Alert.AlertType.WARNING, null, ButtonType.YES, ButtonType.CANCEL);
-        deleteAlert.setHeaderText("Do you want to delete selected path(s)?");
+        deleteAlert.setHeaderText("是否要删除所选路径?");
         DialogPane dialogPane = deleteAlert.getDialogPane();
 
         ObservableList<Path> paths = Optional.ofNullable(pathsLabel)
@@ -38,7 +38,7 @@ public final class AlertHelper {
                 .orElse(FXCollections.emptyObservableList());
 
         if (paths.isEmpty()) {
-            dialogPane.setContentText("There are no files selected.");
+            dialogPane.setContentText("未选择任何文件。");
             deleteAlert.getButtonTypes().clear();
             deleteAlert.getButtonTypes().add(ButtonType.CANCEL);
             return deleteAlert;
@@ -99,26 +99,26 @@ public final class AlertHelper {
 
     public static Optional<ButtonType> nullDirectoryAlert() {
         AlertDialog deleteAlert = new AlertDialog(AlertType.WARNING, null, ButtonType.OK);
-        deleteAlert.setHeaderText("Please select directorie(s)");
+        deleteAlert.setHeaderText("请选择目录");
         return deleteAlert.showAndWait();
     }
 
     public static Optional<ButtonType> notImplementedDialog() {
         AlertDialog alert = new AlertDialog(AlertType.WARNING, null, ButtonType.OK);
-        alert.setHeaderText("This feature is not available for Markdown.");
+        alert.setHeaderText("此功能不适用于Markdown。");
         return alert.showAndWait();
     }
 
     public static Optional<ButtonType> saveAlert() {
         AlertDialog saveAlert = new AlertDialog();
-        saveAlert.setHeaderText("This document is not saved. Do you want to close it?");
+        saveAlert.setHeaderText("此文档未保存。您想关闭它吗?");
         return saveAlert.showAndWait();
     }
 
     public static Optional<ButtonType> conflictAlert(Path path) {
         Alert alert = new WindowModalAlert(Alert.AlertType.WARNING);
-        alert.setTitle("File Cache Conflict");
-        alert.setHeaderText(String.format("Changes have been made to '%s' in memory and on disk", path));
+        alert.setTitle("文件缓存冲突");
+        alert.setHeaderText(String.format("已对内存和磁盘中的 '%s' 进行了更改", path));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(LOAD_FILE_SYSTEM_CHANGES, KEEP_MEMORY_CHANGES, ButtonType.CANCEL);
         return alert.showAndWait();
@@ -126,8 +126,8 @@ public final class AlertHelper {
 
     public static Optional<ButtonType> sizeHangAlert(Path path, int hangFileSizeLimit) {
         Alert alert = new WindowModalAlert(Alert.AlertType.WARNING);
-        alert.setTitle(String.format("File size > %dMB", hangFileSizeLimit));
-        alert.setHeaderText(String.format("It may cause application being unresponsive", path));
+        alert.setTitle(String.format("文件大小 > %dMB", hangFileSizeLimit));
+        alert.setHeaderText(String.format("这可能会导致应用程序无响应", path));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(OPEN_IN_APP, OPEN_EXTERNAL, ButtonType.CANCEL);
         return alert.showAndWait();
@@ -135,8 +135,8 @@ public final class AlertHelper {
 
     public static Optional<ButtonType> nosizeAlert(Path path, int hangFileSizeLimit) {
         Alert alert = new WindowModalAlert(Alert.AlertType.WARNING);
-        alert.setTitle("No file size");
-        alert.setHeaderText(String.format("It may cause application being unresponsive if it's real size > %dMB", path, hangFileSizeLimit));
+        alert.setTitle("无文件大小");
+        alert.setHeaderText(String.format("可能会导致应用程序无响应如果实际大小 > %dMB", path, hangFileSizeLimit));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(OPEN_IN_APP, OPEN_EXTERNAL, ButtonType.CANCEL);
         return alert.showAndWait();
@@ -155,10 +155,10 @@ public final class AlertHelper {
 
         dialogPane.setContent(listView);
 
-        alert.setTitle("Duplicate JARs found");
-        alert.setHeaderText(String.format("Duplicate JARs found, it may cause unexpected behaviours.\n\n" +
-                "Please remove the older versions from these pair(s) manually. \n" +
-                "JAR files are located at %s directory.", lib));
+        alert.setTitle("发现重复的JAR文件");
+        alert.setHeaderText(String.format("发现重复的JAR，可能会导致意外行为。\n\n" +
+                "请手动从这些对中删除旧版本。 \n" +
+                "JAR文件位于 %s 目录。", lib));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.OK);
         alert.showAndWait();
@@ -177,10 +177,10 @@ public final class AlertHelper {
 
         dialogPane.setContent(listView);
 
-        alert.setTitle("Load previous configuration?");
-        alert.setHeaderText(String.format("You have configuration files from previous AsciidocFX versions\n\n" +
-                "Select the configuration which you want to load configuration \n" +
-                "or continue with fresh configuration"));
+        alert.setTitle("加载以前的配置?");
+        alert.setHeaderText(String.format("您有以前AsciidocFX版本的配置文件\n\n" +
+                "选择要加载的配置 \n" +
+                "或继续使用新配置"));
         alert.getButtonTypes().clear();
         alert.getButtonTypes().addAll(ButtonType.APPLY);
         alert.getButtonTypes().addAll(ButtonType.CANCEL);
